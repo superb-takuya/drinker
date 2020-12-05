@@ -1,5 +1,5 @@
 <template>
   <div>
-    top page
+    header
   </div>
 </template>

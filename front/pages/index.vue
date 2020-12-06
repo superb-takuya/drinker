@@ -40,6 +40,9 @@
           </el-card>
         </el-col>
       </el-row>
+      <el-row :gutter="20" class="mt-3 text-center">
+        <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
+      </el-row>
     </div>
   </div>
 

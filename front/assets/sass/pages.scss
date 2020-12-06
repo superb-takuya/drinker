@@ -1,1 +1,22 @@
 // pageごとのcss
+
+// header
+header{
+  border-bottom: 1px solid #eee;
+  .header-right{
+    text-align: left;
+    .site-image{
+      height: 52px;
+      width:  80px;
+      @media (max-width: 480px){
+        height: 52px;
+        width:  80px;
+      }
+    }
+  }
+  .header-left{
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+  }
+}

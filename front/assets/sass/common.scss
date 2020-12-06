@@ -2,6 +2,9 @@
 a{
   color: #000000;
   text-decoration: none;
+  :hover{
+    text-decoration: none;
+  }
 }
 
 .flex{
@@ -14,4 +17,34 @@ body{
 
 main{
   background-color: #f7fafc;
+}
+
+.container {
+  max-width: 1080px !important;
+}
+
+.font-bold{
+  font-weight: 600;
+}
+
+// margin系
+.mt-3{
+  margin-top: 3rem;
+}
+
+.mt-1{
+  margin-top: 1rem;
+}
+.my-1{
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.el-rate{
+  .el-rate__item{
+    .el-rate__icon{
+      margin: 0;
+      font-size: 14px;
+    }
+  }
 }

@@ -11,7 +11,7 @@
       }
       margin-left: 3rem;
       div{
-        font-size: 0.9rem;
+        font-size: 1.2rem;
         font-weight: 700;
         margin-left: 0.8rem;
         margin-right: 0.8rem;
@@ -75,15 +75,56 @@
 
 // top
 .top{
-  .image{
+  padding-bottom: 5rem;
+  .top-image{
+    margin-bottom: 3rem;
     .el-image{
       width: 100%;
-      max-height: 25rem;
+      max-height: 45rem;
       @media (max-width: 896px){
-        max-height: 200px;
+        max-height: 250px;
       }
       @media (max-width: 480px){
         max-height: 100px;
+      }
+    }
+  }
+  .genre{
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    .genre-image{
+      height: 7.5rem;
+      width: 7.5rem;
+      margin-right: 1.5rem;
+    }
+  }
+  .cast-card{
+    .card-header{
+      position: relative;
+      img{
+        width: 100%;
+        height: auto;
+        background-image: url('/images/cast.jpg');
+      }
+    }
+    .card-main{
+      margin: 1rem;
+      .name{
+        font-weight: 700;
+        font-size: 1.5rem;
+      }
+      .credit{
+        color: #FF3654;
+        .value{
+          font-weight: 900;
+          font-size: 1.8rem;
+          margin-right: 0.5rem;
+        }
+        .text{
+          margin-top: auto;
+          font-size: 1.2rem;
+        }
       }
     }
   }

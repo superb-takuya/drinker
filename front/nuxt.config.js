@@ -38,6 +38,7 @@ export default {
   ],
 
   css: [
+    { src: '~/assets/css/bootstrap.css', lang: 'css' },
     { src: '~/assets/sass/main.scss', lang: 'scss' },
   ],
 

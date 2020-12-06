@@ -90,6 +90,7 @@ export default {
   },
   mounted: function(){
     // css
+    document.getElementsByClassName('site-header')[0].style.height = "auto";
     let smallMedia = window.matchMedia('(max-width: 480px)');
     if(smallMedia.matches){
       let drawer = document.getElementById('header-drawer');

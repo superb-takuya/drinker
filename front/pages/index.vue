@@ -24,7 +24,7 @@
       <el-row :gutter="20" class="mt-1">
         <el-col :xs="12" :sm="8" :md="6" v-for="i in 4">
           <el-card shadow="hover" class="cast-card my-1" :body-style="{ padding: '0px' }">
-            <div class="card-header">
+            <div class="card-image">
               <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png">
             </div>
             <div class="card-main">

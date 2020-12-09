@@ -19,9 +19,6 @@ main{
   background-color: #f7fafc;
 }
 
-.container {
-  max-width: 1080px !important;
-}
 
 .font-bold{
   font-weight: 600;
@@ -31,7 +28,6 @@ main{
 .mt-3{
   margin-top: 3rem;
 }
-
 .mt-1{
   margin-top: 1rem;
 }
@@ -39,6 +35,15 @@ main{
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
+
+// padding系
+.pt-3{
+  padding-top: 3rem;
+}
+.pt-1{
+  padding-top: 1rem;
+}
+
 
 .el-rate{
   .el-rate__item{

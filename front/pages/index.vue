@@ -3,7 +3,7 @@
     <div class="top-image">
       <el-image src="/images/main.jpg"></el-image>
     </div>
-    <div class="container mt-3">
+    <div class="container pt-1">
       <el-row>
         <el-col :span="24">
           <h4 class="font-bold">ジャンル</h4>
@@ -45,12 +45,6 @@
       </el-row>
     </div>
   </div>
-
-
-
-
-
-
 </template>
 
 <script>

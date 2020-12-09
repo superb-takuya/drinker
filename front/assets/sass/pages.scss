@@ -75,6 +75,9 @@
 
 // top
 .top{
+  .container {
+    max-width: 1080px !important;
+  }
   padding-bottom: 5rem;
   .top-image{
     margin-bottom: 3rem;
@@ -105,7 +108,6 @@
       img{
         width: 100%;
         height: auto;
-        background-image: url('/images/cast.jpg');
       }
     }
     .card-main{
@@ -127,5 +129,12 @@
         }
       }
     }
+  }
+}
+
+// cast detail
+.cast-detail{
+  .container {
+    max-width: 1280px !important;
   }
 }

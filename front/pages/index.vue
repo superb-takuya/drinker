@@ -11,7 +11,7 @@
       </el-row>
       <el-row>
         <el-col :span="24" class="genre mt-1">
-          <el-image v-for="i in 50" src="/images/genre/talk.png" fit="contain" class="genre-image"></el-image>
+          <el-image v-for="i in 50" :key="i" src="/images/genre/talk.png" fit="contain" class="genre-image"></el-image>
         </el-col>
       </el-row>
     </div>
@@ -22,7 +22,7 @@
         </el-col>
       </el-row>
       <el-row :gutter="20" class="mt-1">
-        <el-col :xs="12" :sm="8" :md="6" v-for="i in 4">
+        <el-col :xs="12" :sm="8" :md="6" v-for="i in 4" :key="i">
           <el-card shadow="hover" class="cast-card my-1" :body-style="{ padding: '0px' }">
             <div class="card-image">
               <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png">

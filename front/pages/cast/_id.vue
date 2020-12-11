@@ -52,7 +52,7 @@
                   未登録のセクションです
                 </div>
                 <div class="body">
-                  <el-image v-for="i in 3" src="/images/genre/talk.png" fit="contain" class="chat-apps mr-1"></el-image>
+                  <el-image v-for="i in 3" :key="i" src="/images/genre/talk.png" fit="contain" class="chat-apps mr-1"></el-image>
                 </div>
               </div>
             </div>
@@ -68,10 +68,8 @@
                   ユーザーによる評価はまだありません
                 </div>
               </div>
-
             </div>
           </el-card>
-
         </el-col>
       </el-row>
     </div>

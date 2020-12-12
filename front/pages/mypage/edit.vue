@@ -1,6 +1,6 @@
 <template>
   <div class="mypage-edit">
-    <div class="container container-sm pt-1 ">
+    <div class="container container-sm pt-3">
       <el-row justify="center">
         <el-col :xs="24" :sm="24" :md="24">
           <el-card class="cast-card my-2" :body-style="{ padding: '0px' }">

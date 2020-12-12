@@ -245,3 +245,62 @@
     }
   }
 }
+
+// credit-market
+.credit-market{
+  .credits{
+    padding: 3rem;
+    .credit{
+      display: flex;
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+      .image{
+        margin-right: 1.5rem;
+        .icon{
+          width: 5rem;
+          height: 5rem;
+        }
+      }
+      .price{
+        display: flex;
+        margin-top: auto;
+        margin-bottom: auto;
+        .value{
+          font-weight: 700;
+          font-size: 2.1rem;
+        }
+        .text{
+          font-size: 1.2rem;
+          margin-top: 0.9rem;
+        }
+      }
+      .buy{
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: auto;
+      }
+    }
+  }
+  .credit-used{
+    thead{
+      font-size: 1.3rem;
+
+      .detail{
+        width: 65%;
+      }
+      .credit{
+        margin-left: auto;
+        width: 35%;
+      }
+    }
+    tbody{
+      .detail{
+        font-size: 1.4rem;
+      }
+      .date{
+        color: #999;
+        font-size: 1rem;
+      }
+    }
+  }
+}

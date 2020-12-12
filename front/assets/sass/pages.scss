@@ -208,3 +208,40 @@
     }
   }
 }
+
+// notice
+.notice{
+  .notices{
+    padding: 3rem;
+    .notice{
+      display: flex;
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #e1e1e1;
+      .image{
+        margin-right: 1.5rem;
+        .icon{
+          width: 5rem;
+          height: 5rem;
+        }
+      }
+      .contents{
+        font-weight: 600;
+        .title{
+          font-size: 1.2rem;
+          margin-bottom: 1rem;
+        }
+        .body{
+          font-size: 1.1rem;
+          line-height: 1.7;
+          margin-bottom: 0.8rem;
+        }
+        .date{
+          font-weight: 500;
+          font-size: 1.1rem;
+          color: #999;
+        }
+      }
+    }
+  }
+}

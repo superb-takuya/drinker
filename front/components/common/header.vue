@@ -13,7 +13,7 @@
       </div>
       <div class="header-right">
         <div class="after-auth" v-if="auth">
-          <nuxt-link to="/notice">
+          <nuxt-link to="/notifications">
             <i class="icon el-icon-bell"></i>
           </nuxt-link>
           <nuxt-link to="/chat">

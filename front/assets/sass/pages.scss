@@ -305,10 +305,10 @@
 }
 
 
-// login
-.login{
+// auth(login/register...)
+.auth{
   .title{
-    font-size: 3rem;
+    font-size: 3.5rem;
     text-align: center;
     font-weight: 600;
     color: #ff8787
@@ -322,12 +322,20 @@
       margin: 3rem 1rem 1rem 1rem;
     }
   }
-  .forget-password{
-    color: #999;
+  .auth-link{
+    text-align: center;
+    margin-bottom: 1rem;
+    a{
+      font-size: 1.3rem;
+      color: #ff8787;
+    }
   }
-  .register{
-    color: #999;
-    margin-left: auto;
+  .forget-password{
+    text-align: center;
+    a{
+      font-size: 1.3rem;
+      color: #999;
+    }
   }
 
 }

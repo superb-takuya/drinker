@@ -6,28 +6,22 @@
           <el-card class="my-2 p-3" :body-style="{ padding: '0px' }">
             <el-row type="flex" class="row-bg" justify="center">
               <el-col :xs="24" :sm="24" :md="24">
-                <div class="title">Sign Up!</div>
+                <div class="title">Login!</div>
               </el-col>
             </el-row>
             <el-row type="flex" class="row-bg" justify="center">
               <el-col :xs="24" :sm="24" :md="24">
                 <el-form class="login-form">
                   <el-form-item class="my-1">
-                    <el-input placeholder="ニックネーム" v-model="name"></el-input>
-                  </el-form-item>
-                  <el-form-item class="my-1">
-                    <el-input placeholder="メールアドレス" v-model="password"></el-input>
-                  </el-form-item>
-                  <el-form-item class="my-1">
-                    <el-input placeholder="パスワード" v-model="password"></el-input>
+                    <el-input placeholder="メールアドレス" v-model="email"></el-input>
                   </el-form-item>
                   <el-form-item class="text-center mt-2">
-                    <el-button type="primary" >登録する</el-button>
+                    <el-button type="primary" >メール送信</el-button>
                   </el-form-item>
                 </el-form>
                 <hr>
                 <div class="auth-link">
-                  <NuxtLink to="/login">アカウントを既に持っている場合</NuxtLink>
+                  <NuxtLink to="/login">ログイン画面に戻る</NuxtLink>
                 </div>
               </el-col>
             </el-row>

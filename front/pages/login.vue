@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="auth">
     <div class="container pt-1">
       <el-row type="flex" class="row-bg" justify="center">
         <el-col :xs="24" :sm="16" :md="8">
@@ -23,9 +23,11 @@
                   </el-form-item>
                 </el-form>
                 <hr>
-                <div class="flex">
-                  <NuxtLink class="forget-password" to="/forget_password">パスワードを忘れた</NuxtLink>
-                  <NuxtLink class="register" to="/register">新規登録</NuxtLink>
+                <div class="auth-link">
+                  <NuxtLink to="/register">新規登録はこちら</NuxtLink>
+                </div>
+                <div class="forget-password">
+                  <NuxtLink to="/forget_password">パスワードを忘れた場合</NuxtLink>
                 </div>
               </el-col>
             </el-row>

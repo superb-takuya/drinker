@@ -2,7 +2,7 @@
   <div class="auth">
     <div class="container pt-1">
       <el-row type="flex" class="row-bg" justify="center">
-        <el-col :xs="24" :sm="16" :md="8">
+        <el-col :xs="24" :sm="16" :md="9">
           <el-card class="my-2 p-3" :body-style="{ padding: '0px' }">
             <el-row type="flex" class="row-bg" justify="center">
               <el-col :xs="24" :sm="24" :md="24">

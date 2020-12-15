@@ -6,9 +6,7 @@
           <el-image class="site-image" src="/images/title.png" fit="contain"></el-image>
         </nuxt-link>
         <div class="header-left-links flex">
-          <div><nuxt-link to="/">ホーム</nuxt-link></div>
-          <div><nuxt-link to="/chat">メッセージ</nuxt-link></div>
-          <div><nuxt-link to="/cast/1">プロフィール</nuxt-link></div>
+          <div v-for="i in headerLinks" :key="i"><nuxt-link :to="i.link">{{i.title}}</nuxt-link></div>
         </div>
       </div>
       <div class="header-right">
@@ -74,10 +72,6 @@ export default {
           link: '/mypage/edit',
         },
         {
-          title: 'アカウント設定',
-          link: '/mypage/setting',
-        },
-        {
           title: 'クレジット購入/履歴',
           link: '/credit/market',
         },
@@ -85,6 +79,21 @@ export default {
           title: 'ダッシュボード',
           link: '/dashbord/ticket',
         },
+      ],
+      headerLinks:[
+        {
+          title: 'ホーム',
+          link: '/',
+        },
+        {
+          title: 'メッセージ',
+          link: '/chat',
+        },
+        {
+          title: 'プロフィール',
+          link: '/cast/1',
+        },
+
       ]
     };
   },

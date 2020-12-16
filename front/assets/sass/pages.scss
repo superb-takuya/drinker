@@ -304,7 +304,6 @@
   }
 }
 
-
 // auth(login/register...)
 .auth{
   .title{
@@ -335,6 +334,122 @@
     a{
       font-size: 1.3rem;
       color: #999;
+    }
+  }
+}
+
+.chat{
+  background-color: white;
+  .rooms{
+    border: 1px solid #eee;
+    .rooms-header{
+      background-color: #fff;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 0 16px;
+      border-bottom:1px solid #eee;
+      .title{
+        font-weight: 600;
+      }
+    }
+    .rooms-body{
+      height: calc(var(--vh, 1vh)*100 - 115px);
+      overflow: scroll;
+      .room-item{
+        border-bottom: 1px solid #eee;
+        :hover{
+          background-color: $light-gray;
+        }
+        .room-user{
+          padding: 1rem;
+          display: flex;
+          .header{
+            margin-right: 1rem;
+            .icon{
+              border-radius: 50%;
+              width: 4.5rem;
+              height: 4.5rem;
+            }
+          }
+          .body{
+            .name{
+              font-size: 1.3rem;
+              font-weight: 600;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .chat-room{
+    border: 1px solid #eee;
+    .chat-header{
+      background-color: #fff;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 0 16px;
+      border-bottom: 1px solid #eee;
+      .title{
+        width: 100%;
+        display: flex;
+        .name{
+          font-weight: 600;
+        }
+        .image{
+          margin-left: auto;
+          .icon{
+            border-radius: 50%;
+            width: 3.5rem;
+            height: 3.5rem;
+          }
+        }
+      }
+    }
+    .chat-body{
+      height: calc(var(--vh, 1vh)*100 - 235px);
+      padding-bottom: 50px;
+      overflow: scroll;
+    }
+    .chat-send{
+      background-color: #fff;
+      height: 120px;
+      display: flex;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-top: 1px solid #eee;
+      position: relative;
+      .message{
+        background-color: #f6f6f6;
+        height: 100%;
+        width: 100%;
+        border-style: none;
+        outline: none;
+        font-size: 1.8rem;
+        padding: 8px 12px;
+      }
+      .send-button{
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: none;
+        box-shadow: 0 2px 12px 0 rgba(44, 44, 44, 0.1);
+        background-color: #fff;
+        font-size: 20px;
+        right: 5px;
+        bottom: 5px;
+        outline: .1rem solid transparent;
+      }
     }
   }
 

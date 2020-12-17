@@ -13,6 +13,7 @@ body{
 }
 main{
   background-color: $light-gray;
+  min-height: calc(var(--vh, 1vh)*100 - 56px);
 }
 
 // display

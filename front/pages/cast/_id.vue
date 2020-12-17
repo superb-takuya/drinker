@@ -28,7 +28,7 @@
               <div class="card-section">
                 <div class="title flex">
                   <el-avatar :size="30" :src="circleUrl"></el-avatar>
-                  <div class="my-auto ml-1 font-bold font-sm-title">自己紹介</div>
+                  <div class="my-auto ml-1 font-bold font-title">自己紹介</div>
                 </div>
                 <div class="body bg-light-gray">
                   未登録のセクションです
@@ -37,7 +37,7 @@
               <div class="card-section">
                 <div class="title flex">
                   <el-avatar :size="30" :src="circleUrl"></el-avatar>
-                  <div class="my-auto ml-1 font-bold font-sm-title">都合のつきやすい日時</div>
+                  <div class="my-auto ml-1 font-bold font-title">都合のつきやすい日時</div>
                 </div>
                 <div class="body bg-light-gray">
                   未登録のセクションです
@@ -46,7 +46,7 @@
               <div class="card-section mt-3">
                 <div class="title flex">
                   <el-avatar :size="30" :src="circleUrl"></el-avatar>
-                  <div class="my-auto ml-1 font-bold font-sm-title">ビデオチャットアプリ</div>
+                  <div class="my-auto ml-1 font-bold font-title">ビデオチャットアプリ</div>
                 </div>
                 <div class="body bg-light-gray">
                   未登録のセクションです
@@ -62,7 +62,7 @@
               <div class="card-section">
                 <div class="title flex">
                   <el-avatar :size="30" :src="circleUrl"></el-avatar>
-                  <div class="my-auto ml-1 font-bold font-sm-title">ユーザーによる評価</div>
+                  <div class="my-auto ml-1 font-bold font-title">ユーザーによる評価</div>
                 </div>
                 <div class="body bg-light-gray">
                   ユーザーによる評価はまだありません

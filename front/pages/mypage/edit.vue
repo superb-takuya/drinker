@@ -7,7 +7,7 @@
             <el-form>
               <el-row justify="center">
                 <el-col :xs="24" :sm="24" :md="24">
-                  <div class="mb-1 font-bold font-sm-title">基本情報</div>
+                  <div class="mb-1 font-bold font-title">基本情報</div>
                 </el-col>
               </el-row>
               <el-row justify="center" class="form-basic-info">
@@ -31,7 +31,7 @@
               </el-row>
               <el-row justify="center mt-1">
                 <el-col :xs="24" :sm="24" :md="24">
-                  <div class="mb-1 font-bold font-sm-title">画像の登録</div>
+                  <div class="mb-1 font-bold font-title">画像の登録</div>
                 </el-col>
               </el-row>
               <el-row class="form-image-upload">
@@ -62,7 +62,7 @@
               </el-row>
               <el-row justify="center mt-1">
                 <el-col :xs="24" :sm="24" :md="24">
-                  <div class="mb-1 font-bold font-sm-title">キャスト設定</div>
+                  <div class="mb-1 font-bold font-title">キャスト設定</div>
                 </el-col>
               </el-row>
               <el-row class="form-cast-info">
@@ -83,7 +83,7 @@
               </el-row>
               <el-row justify="center mt-1">
                 <el-col :xs="24" :sm="24" :md="24">
-                  <div class="mb-1 font-bold font-sm-title">希望のボイスチャットアプリ</div>
+                  <div class="mb-1 font-bold font-title">希望のボイスチャットアプリ</div>
                 </el-col>
               </el-row>
               <el-row class="form-chat-info flex">

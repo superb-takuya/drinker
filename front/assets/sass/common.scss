@@ -35,13 +35,32 @@ main{
 .font-bold{
   font-weight: 600;
 }
-.font-sm-title{
+.font-small{
+  font-size: 1rem;
+}
+.font-title{
   font-size: 1.5rem;
+}
+.font-md{
+  font-size: 1.8rem;
 }
 
 // background color
 .bg-light-gray{
   background-color: $light-gray;
+}
+.bg-white{
+  background-color: #ffffff;
+}
+
+// border
+.white-gray-border{
+  border: 1px solid $white-gray;
+}
+
+// border-radius
+.circle{
+  border-radius:50%
 }
 
 // margin系

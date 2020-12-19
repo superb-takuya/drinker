@@ -77,7 +77,7 @@ export default {
         },
         {
           title: 'ダッシュボード',
-          link: '/dashbord/revenues',
+          link: '/dashbord',
         },
       ],
       headerLinks:[

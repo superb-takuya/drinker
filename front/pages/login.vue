@@ -27,7 +27,7 @@
                   <NuxtLink to="/register">新規登録はこちら</NuxtLink>
                 </div>
                 <div class="forget-password">
-                  <NuxtLink to="/forget_password">パスワードを忘れた場合</NuxtLink>
+                  <NuxtLink to="/forget-password">パスワードを忘れた場合</NuxtLink>
                 </div>
               </el-col>
             </el-row>

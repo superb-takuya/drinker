@@ -114,6 +114,12 @@ main{
 .p-3{
   padding: 3rem;
 }
+.pr-1{
+  padding-right:1rem;
+}
+.pl-1{
+  padding-left:1rem;
+}
 
 // その他
 .el-rate{
@@ -123,4 +129,8 @@ main{
       font-size: 14px;
     }
   }
+}
+
+.w-100{
+  width: 100%;
 }

@@ -2,7 +2,7 @@
   <div class="chat bg-white">
     <div class="container">
       <el-row type="flex" class="row-bg" justify="center">
-        <el-col :xs="8" :sm="8" :md="6" class="rooms white-gray-border">
+        <el-col :xs="18" :sm="6" :md="6" class="rooms white-gray-border" v-show="rooms">
           <div class="chat-header bg-white">
             <div class="title">メッセージ一覧</div>
           </div>
@@ -19,7 +19,7 @@
             </div>
           </div>
         </el-col>
-        <el-col :xs="16" :sm="16" :md="12" class="chat-room white-gray-border">
+        <el-col :xs="18" :sm="16" :md="12" class="chat-room white-gray-border" v-show="room">
           <div class="chat-header bg-white">
             <div class="title">
               <div class="name my-auto">あんなﾁｬﾝ</div>
@@ -73,5 +73,29 @@
 <script>
 export default {
   layout: 'chat',
+  data() {
+    return {
+      rooms: true,
+      room: true,
+    }
+  },
+  created(){
+    if (process.client) {
+      window.addEventListener('resize', this.handleResize)
+      this.handleResize()
+    }
+  },
+  methods: {
+    handleResize: function() {
+      let smallMedia = window.matchMedia('(max-width: 767px)');
+      if(smallMedia.matches){
+        this.rooms = true;
+        this.room = false;
+      }else{
+        this.room = true;
+        this.rooms = true;
+      }
+    },
+  }
 }
 </script>

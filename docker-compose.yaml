@@ -1,9 +1,9 @@
 version: '3'
 services:
-  gamers-nuxt:
+  nuxt:
     build:
       context: front
-      dockerfile: devDockerfile
+      dockerfile: Dockerfile.dev
     ports:
       - 3000:3000
     volumes:
@@ -11,3 +11,12 @@ services:
     tty: true
     working_dir: /nuxtjs
     command: sh -c "yarn install && yarn dev"
+  backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8080:8080"
+    tty: true

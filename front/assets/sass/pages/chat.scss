@@ -52,6 +52,11 @@
         .name{
           font-weight: 600;
         }
+        .back-room-icon{
+          @media (min-width: 768px){
+            display: none;
+          }
+        }
         .image{
           margin-left: auto;
           .icon{

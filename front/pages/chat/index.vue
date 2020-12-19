@@ -22,7 +22,10 @@
         <el-col :xs="18" :sm="16" :md="12" class="chat-room white-gray-border" v-show="room">
           <div class="chat-header bg-white">
             <div class="title">
-              <div class="name my-auto">あんなﾁｬﾝ</div>
+              <div class="my-auto flex">
+                <i class="el-icon-back my-auto mr-1 back-room-icon"></i>
+                <div class="name">あんなﾁｬﾝ</div>
+              </div>
               <div class="image my-auto">
                 <img src="/images/cast.jpeg" class="icon circle">
               </div>
@@ -89,8 +92,8 @@ export default {
     handleResize: function() {
       let smallMedia = window.matchMedia('(max-width: 767px)');
       if(smallMedia.matches){
-        this.rooms = true;
-        this.room = false;
+        this.room = true;
+        this.rooms = false;
       }else{
         this.room = true;
         this.rooms = true;

@@ -27,7 +27,7 @@
     </el-container>
 
     <!-- drawer -->
-    <el-drawer :visible.sync="drawer" :with-header="false" id="header-drawer" size="25%">
+    <el-drawer :visible.sync="drawer" :with-header="false" id="header-drawer" :size="drawerSize">
       <el-row>
         <el-col>
           <el-header class="drawer-header">
@@ -62,6 +62,7 @@ export default {
     return {
       auth: true,
       drawer: false,
+      drawerSize: '25%',
       drawerData:[
         {
           title: 'プロフィール',
@@ -93,20 +94,27 @@ export default {
           title: 'プロフィール',
           link: '/cast/1',
         },
-
       ]
     };
   },
   mounted: function(){
-    // css
     document.getElementsByClassName('site-header')[0].style.height = "auto";
-    let smallMedia = window.matchMedia('(max-width: 480px)');
-    if(smallMedia.matches){
-      let drawer = document.getElementById('header-drawer');
-      drawer.getElementsByClassName('el-drawer')[0].style.width = "65%"
+  },
+  created(){
+    if (process.client) {
+      window.addEventListener('resize', this.handleResize)
+      this.handleResize()
     }
   },
-  methods:{
+  methods: {
+    handleResize: function() {
+      let isSmall = window.matchMedia('(max-width: 767px)');
+      if(isSmall.matches){
+        this.drawerSize = '55%'
+      }else{
+        this.drawerSize = '25%'
+      }
+    },
     showPage(pagelink){
       this.drawer = false;
       this.$router.push(pagelink);
@@ -115,6 +123,6 @@ export default {
       // signOut
       location.href="/";
     }
-  }
+  },
 };
 </script>

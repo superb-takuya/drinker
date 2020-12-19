@@ -1,0 +1,14 @@
+
+version: '3'
+services:
+  gamers-nuxt:
+    build:
+      context: front
+      dockerfile: devDockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./front:/nuxtjs
+    tty: true
+    working_dir: /nuxtjs
+    command: sh -c "yarn install && yarn dev"

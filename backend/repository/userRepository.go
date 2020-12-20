@@ -16,7 +16,7 @@ func NewUserRepository(Conn *gorm.DB) domain.UserRepository {
 	return &userRepository{Conn}
 }
 
-func (m *userRepository) GetUsers(ctx context.Context, limit int32, offset int32) ([]domain.User, error) {
-	res := []domain.User{}
+func (m *userRepository) GetUsers(ctx context.Context, req *domain.GetUsersPequest) (domain.GetUsersPesponse, error) {
+	res := domain.GetUsersPesponse{}
 	return res, nil
 }

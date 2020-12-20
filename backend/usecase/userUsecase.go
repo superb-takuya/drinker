@@ -17,10 +17,10 @@ func NewUserUsecase(ur domain.UserRepository) domain.UserUsecase {
 	}
 }
 
-func (u *userUsecase) GetUsers(c context.Context, limit int32, offset int32) ([]domain.User, error) {
-	res, err := u.userRepo.GetUsers(c, limit, offset)
+func (u *userUsecase) GetUsers(c context.Context, req *domain.GetUsersPequest) (domain.GetUsersPesponse, error) {
+	res, err := u.userRepo.GetUsers(c, req)
 	if err != nil {
-		return nil, err
+		return domain.GetUsersPesponse{}, err
 	}
 	return res, nil
 }

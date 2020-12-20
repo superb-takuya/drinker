@@ -23,7 +23,15 @@ func NewUserHandler(e *echo.Echo, us domain.UserUsecase) {
 
 func (h *userHandler) GetUsers(e echo.Context) error {
 	ctx := e.Request().Context()
-	user, err := h.uUsecase.GetUsers(ctx, 1, 1)
+	req := new(domain.GetUsersPequest)
+	if err := e.Bind(req); err != nil {
+		return err
+	}
+	if req.Limit == 0 && req.Offset == 0 {
+		req.Limit = 20
+	}
+
+	user, err := h.uUsecase.GetUsers(ctx, req)
 	if err != nil {
 		return e.JSON(http.StatusBadRequest, err.Error())
 	}

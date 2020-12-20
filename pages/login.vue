@@ -13,13 +13,13 @@
               <el-col :xs="24" :sm="24" :md="24">
                 <el-form class="login-form">
                   <el-form-item class="my-1">
-                    <el-input placeholder="メールアドレス" v-model="email"></el-input>
+                    <el-input placeholder="メールアドレス" v-model="email" :rules="emailRules" required></el-input>
                   </el-form-item>
                   <el-form-item class="my-1">
-                    <el-input placeholder="パスワード" v-model="password"></el-input>
+                    <el-input placeholder="パスワード" v-model="password" :rules="passRules" required></el-input>
                   </el-form-item>
                   <el-form-item class="text-center mt-2">
-                    <el-button type="primary" >ログイン</el-button>
+                    <el-button type="primary" @click="signIn()">ログイン</el-button>
                   </el-form-item>
                 </el-form>
                 <hr>
@@ -37,23 +37,41 @@
     </div>
   </div>
 </template>
+
 <script>
+import userApi from '@/plugins/firebase/modules/user';
+
 export default {
   data() {
     return {
-      tableData: [{
-        id:'1',
-        detail: 'クレジットの購入',
-        date:'2020-10-24',
-        credit: '+300',
-      },
-      {
-        id:`2`,
-        detail: 'A子さんとの飲み',
-        date:'2020-10-24',
-        credit: '-400',
-      }]
+      valid: true,
+      email: "",
+      password: "",
     }
-  }
+  },
+  methods: {
+    signIn: function () {
+      const email = this.email
+      const password = this.email
+      if (email.length < 1 || password.length < 1){
+        this.$message({
+          type: 'error',
+          message: '必須項目が入力されていません'
+        });
+      }
+      else{
+        userApi.signInWithEmailAndPassword(email, password)
+        .then(rslt => {
+          localStorage.loginedUserId = rslt.user.uid;
+          location.href="/";
+        }).catch((error) => {
+          this.$message({
+            type: 'error',
+            message: 'ログインに失敗しました'
+          });
+        });
+      }
+    }
+  },
 }
 </script>

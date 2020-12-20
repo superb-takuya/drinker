@@ -1,7 +1,0 @@
-FROM node:lts-alpine
-
-WORKDIR /nuxtjs
-
-RUN apk update && \
-    apk upgrade && \
-    apk add --no-cache make gcc g++ python

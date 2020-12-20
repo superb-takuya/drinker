@@ -1,14 +1,13 @@
 import firebase from 'firebase'
 
 const config = {
-  apiKey: "AIzaSyDI1oq8_PY0WpF1KiF1yp0c43n8bujqFHI",
-  authDomain: "hostes-dev.firebaseapp.com",
-  databaseURL: "https://hostes-dev.firebaseio.com",
-  projectId: "hostes-dev",
-  storageBucket: "hostes-dev.appspot.com",
-  messagingSenderId: "409465424296",
-  appId: "1:409465424296:web:85d32c119d443f7bec759d",
-  measurementId: "G-JJRN6960YM"
+  apiKey: process.env.apiKey,
+  authDomain: process.env.authDomain,
+  projectId: process.env.projectId,
+  storageBucket: process.env.storageBucket,
+  messagingSenderId: process.env.messagingSenderId,
+  appId: process.env.appId,
+  measurementId: process.env.measurementId
 };
 
 firebase.initializeApp(config);

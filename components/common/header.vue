@@ -6,7 +6,7 @@
           <el-image class="site-image" src="/images/title.png" fit="contain"></el-image>
         </nuxt-link>
         <div class="header-left-links flex">
-          <div v-for="i in headerLinks" :key="i"><nuxt-link :to="i.link">{{i.title}}</nuxt-link></div>
+          <div v-for="i in headerLinks" :key="i.link"><nuxt-link :to="i.link">{{i.title}}</nuxt-link></div>
         </div>
       </div>
       <div class="header-right">

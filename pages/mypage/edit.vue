@@ -25,7 +25,7 @@
                     <el-input type="textarea" :rows="6" placeholder="自己紹介(最大800文字)" v-model="introduct"></el-input>
                   </el-form-item>
                   <el-form-item>
-                    <el-input type="textarea" :rows="4" placeholder="都合のつきやすい日時(最大400文字)" v-model="introduct"></el-input>
+                    <el-input type="textarea" :rows="4" placeholder="都合のつきやすい日時(最大400文字)" v-model="freeTime"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>

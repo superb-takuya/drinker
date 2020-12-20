@@ -13,16 +13,16 @@
               <el-col :xs="24" :sm="24" :md="24">
                 <el-form class="login-form">
                   <el-form-item class="my-1">
-                    <el-input placeholder="ニックネーム" v-model="name"></el-input>
+                    <el-input type="text" placeholder="ニックネーム" v-model="nickName"></el-input>
                   </el-form-item>
                   <el-form-item class="my-1">
-                    <el-input placeholder="メールアドレス" v-model="password"></el-input>
+                    <el-input type="email" placeholder="メールアドレス" v-model="email"></el-input>
                   </el-form-item>
                   <el-form-item class="my-1">
-                    <el-input placeholder="パスワード" v-model="password"></el-input>
+                    <el-input type="password" placeholder="パスワード" v-model="password"></el-input>
                   </el-form-item>
                   <el-form-item class="text-center mt-2">
-                    <el-button type="primary" >登録する</el-button>
+                    <el-button type="primary" @click="signUp()">登録する</el-button>
                   </el-form-item>
                 </el-form>
                 <hr>
@@ -38,22 +38,68 @@
   </div>
 </template>
 <script>
+import userApi from '@/plugins/firebase/modules/user';
+import authApi from '@/plugins/firebase/modules/auth';
+
 export default {
   data() {
     return {
-      tableData: [{
-        id:'1',
-        detail: 'クレジットの購入',
-        date:'2020-10-24',
-        credit: '+300',
-      },
-      {
-        id:`2`,
-        detail: 'A子さんとの飲み',
-        date:'2020-10-24',
-        credit: '-400',
-      }]
+      nickName: "",
+      email: "",
+      password: "",
     }
-  }
+  },
+  methods: {
+    signUp: function () {
+      const nickName = this.email;
+      const email = this.email;
+      const password = this.email;
+      if (nickName.length < 1 || email.length < 1 || password.length < 1){
+        this.$message({
+          type: 'error',
+          message: '必須項目が入力されていません',
+        });
+      }
+      else{
+        authApi.createUserWithEmailAndPassword(email, password).then(rslt => {
+          const userUid = rslt.user.uid
+          const userData = {
+            nickName: this.nickName,
+            display: false,
+            iconURL:"",
+            imageURLs: [],
+            introduct: "",
+            freeTime: "",
+            chatApps: [],
+            salary: 0,
+            credit: 0,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          };
+          userApi.updateUser(userUid, userData).then(rslt=>{
+            this.$message({
+              type: 'success',
+              message: '登録にせいこうしました'
+            });
+            localStorage.loginedUserId = userUid;
+          }).catch(error => {
+            this.$message({
+              type: 'error',
+              message: '登録に失敗しました'
+            });
+          });
+        }).catch((error) => {
+          let message = '登録に失敗しました';
+          if(error.code == "auth/email-already-in-use"){
+            message = "入力されたEmailはすでに使用されています";
+          }
+          this.$message({
+            type: 'error',
+            message: message,
+          });
+        });
+      }
+    }
+  },
 }
 </script>

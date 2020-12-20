@@ -13,10 +13,10 @@
               <el-col :xs="24" :sm="24" :md="24">
                 <el-form class="login-form">
                   <el-form-item class="my-1">
-                    <el-input placeholder="メールアドレス" v-model="email" :rules="emailRules" required></el-input>
+                    <el-input type="text" placeholder="メールアドレス" v-model="email" :rules="emailRules" required></el-input>
                   </el-form-item>
                   <el-form-item class="my-1">
-                    <el-input placeholder="パスワード" v-model="password" :rules="passRules" required></el-input>
+                    <el-input type="password" placeholder="パスワード" v-model="password" :rules="passRules" required></el-input>
                   </el-form-item>
                   <el-form-item class="text-center mt-2">
                     <el-button type="primary" @click="signIn()">ログイン</el-button>
@@ -39,8 +39,7 @@
 </template>
 
 <script>
-import userApi from '@/plugins/firebase/modules/user';
-
+import authApi from '@/plugins/firebase/modules/auth';
 export default {
   data() {
     return {
@@ -60,7 +59,7 @@ export default {
         });
       }
       else{
-        userApi.signInWithEmailAndPassword(email, password)
+        authApi.signInWithEmailAndPassword(email, password)
         .then(rslt => {
           localStorage.loginedUserId = rslt.user.uid;
           location.href="/";

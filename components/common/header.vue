@@ -6,7 +6,7 @@
           <el-image class="site-image" src="/images/title.png" fit="contain"></el-image>
         </nuxt-link>
         <div class="header-left-links flex">
-          <div v-for="i in headerLinks" :key="i.link"><nuxt-link :to="i.link">{{i.title}}</nuxt-link></div>
+          <div v-for="h in headerLinks" :key="h.link"><nuxt-link :to="h.link">{{h.title}}</nuxt-link></div>
         </div>
       </div>
       <div class="header-right">
@@ -42,8 +42,8 @@
           </div>
           </el-header>
           <el-menu>
-            <el-menu-item v-for="i in drawerData" :key="i.title" @click="showPage(i.link)">
-              <span>{{i.title}}</span>
+            <el-menu-item v-for="d in drawerData" :key="d.title" @click="showPage(d.link)">
+              <span>{{d.title}}</span>
             </el-menu-item>
             <el-menu-item @click="signOut">
               <span>ログアウト</span>

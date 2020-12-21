@@ -11,15 +11,15 @@
             </el-row>
             <el-row type="flex" class="row-bg" justify="center">
               <el-col :xs="24" :sm="24" :md="24">
-                <el-form class="login-form">
-                  <el-form-item class="my-1">
-                    <el-input type="text" placeholder="ニックネーム" v-model="nickName"></el-input>
+                <el-form class="auth-form" :model="registerForm" :rules="rules" ref="registerForm">
+                  <el-form-item class="my-1" prop="nickName">
+                    <el-input type="text" placeholder="ニックネーム" v-model="registerForm.nickName"></el-input>
                   </el-form-item>
-                  <el-form-item class="my-1">
-                    <el-input type="email" placeholder="メールアドレス" v-model="email"></el-input>
+                  <el-form-item class="my-1" prop="email">
+                    <el-input type="email" placeholder="メールアドレス" v-model="registerForm.email"></el-input>
                   </el-form-item>
-                  <el-form-item class="my-1">
-                    <el-input type="password" placeholder="パスワード" v-model="password"></el-input>
+                  <el-form-item class="my-1" prop="password">
+                    <el-input type="password" placeholder="パスワード" v-model="registerForm.password"></el-input>
                   </el-form-item>
                   <el-form-item class="text-center mt-2">
                     <el-button type="primary" @click="signUp()">登録する</el-button>
@@ -38,68 +38,80 @@
   </div>
 </template>
 <script>
-import userApi from '@/plugins/firebase/modules/user';
-import authApi from '@/plugins/firebase/modules/auth';
+import  firebase  from '~/plugins/firebase/index.js';
 
 export default {
   data() {
     return {
-      nickName: "",
-      email: "",
-      password: "",
+      registerForm:{
+        nickName: "",
+        email: "",
+        password: "",
+      },
+      rules: {
+        nickName: [
+          { required: true, message: 'ニックネーム は入力必須です', trigger: 'blur' },
+        ],
+        email: [
+          { required: true, message: 'メールアドレス は入力必須です', trigger: 'blur' },
+          { type: 'email', message: 'メールアドレス が正しくありません', trigger: 'blur' }
+        ],
+        password:[
+          { required: true, message: 'パスワード は入力必須です', trigger: 'blur' },
+          { min: 6, max: 30, message: '６文字以上30文字以内にしてください', trigger: 'blur' },
+        ],
+      },
     }
   },
   methods: {
-    signUp: function () {
-      const nickName = this.email;
-      const email = this.email;
-      const password = this.email;
-      if (nickName.length < 1 || email.length < 1 || password.length < 1){
-        this.$message({
-          type: 'error',
-          message: '必須項目が入力されていません',
-        });
-      }
-      else{
-        authApi.createUserWithEmailAndPassword(email, password).then(rslt => {
-          const userUid = rslt.user.uid
-          const userData = {
-            nickName: this.nickName,
-            display: false,
-            iconURL:"",
-            imageURLs: [],
-            introduct: "",
-            freeTime: "",
-            chatApps: [],
-            salary: 0,
-            credit: 0,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          };
-          userApi.updateUser(userUid, userData).then(rslt=>{
-            this.$message({
-              type: 'success',
-              message: '登録にせいこうしました'
+    signUp() {
+      this.$refs["registerForm"].validate((valid) => {
+        if (valid) {
+          const nickName = this.registerForm.nickName
+          const email = this.registerForm.email
+          const password = this.registerForm.password
+          firebase.auth().createUserWithEmailAndPassword(email ,password).then(rslt => {
+            const userUid = rslt.user.uid;
+            firebase.firestore().collection('users').doc(userUid).set({
+              nickName: nickName,
+              display: false,
+              iconURL:"",
+              imageURLs: [],
+              introduct: "",
+              freeTime: "",
+              chatApps: [],
+              salary: 0,
+              credit: 0,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            }).then(rslt=>{
+              this.$message({
+                type: 'success',
+                message: '登録に成功しました'
+              });
+              localStorage.loginedUserId = userUid;
+            }).catch(error => {
+              console.log(error)
+              this.$message({
+                type: 'error',
+                message: '登録に失敗しました'
+              });
             });
-            localStorage.loginedUserId = userUid;
-          }).catch(error => {
+          }).catch((error) => {
+            let message = '登録に失敗しました';
+            if(error.code == "auth/email-already-in-use"){
+              message = "入力されたEmailはすでに使用されています";
+            }
             this.$message({
               type: 'error',
-              message: '登録に失敗しました'
+              message: message,
             });
           });
-        }).catch((error) => {
-          let message = '登録に失敗しました';
-          if(error.code == "auth/email-already-in-use"){
-            message = "入力されたEmailはすでに使用されています";
-          }
-          this.$message({
-            type: 'error',
-            message: message,
-          });
-        });
-      }
+        } else {
+          return false;
+        }
+      });
     }
-  },
+  }
 }
 </script>

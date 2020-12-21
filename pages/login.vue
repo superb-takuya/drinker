@@ -11,12 +11,12 @@
             </el-row>
             <el-row type="flex" class="row-bg" justify="center">
               <el-col :xs="24" :sm="24" :md="24">
-                <el-form class="login-form">
-                  <el-form-item class="my-1">
-                    <el-input type="text" placeholder="メールアドレス" v-model="email" :rules="emailRules" required></el-input>
+                <el-form class="auth-form" :model="loginForm" :rules="rules" ref="loginForm">
+                  <el-form-item class="my-1" prop="email">
+                    <el-input type="text" placeholder="メールアドレス" v-model="loginForm.email"></el-input>
                   </el-form-item>
-                  <el-form-item class="my-1">
-                    <el-input type="password" placeholder="パスワード" v-model="password" :rules="passRules" required></el-input>
+                  <el-form-item class="my-1" prop="password">
+                    <el-input type="password" placeholder="パスワード" v-model="loginForm.password"></el-input>
                   </el-form-item>
                   <el-form-item class="text-center mt-2">
                     <el-button type="primary" @click="signIn()">ログイン</el-button>
@@ -43,33 +43,41 @@ import authApi from '@/plugins/firebase/modules/auth';
 export default {
   data() {
     return {
-      valid: true,
-      email: "",
-      password: "",
+      loginForm:{
+        email: "",
+        password: "",
+        region: "",
+      },
+      rules: {
+        email: [
+          { required: true, message: 'メールアドレス が入力されていません', trigger: 'blur' },
+        ],
+        password:[
+          { required: true, message: 'パスワード が入力されていません', trigger: 'blur' },
+        ],
+      },
     }
   },
   methods: {
-    signIn: function () {
-      const email = this.email
-      const password = this.email
-      if (email.length < 1 || password.length < 1){
-        this.$message({
-          type: 'error',
-          message: '必須項目が入力されていません'
-        });
-      }
-      else{
-        authApi.signInWithEmailAndPassword(email, password)
-        .then(rslt => {
-          localStorage.loginedUserId = rslt.user.uid;
-          location.href="/";
-        }).catch((error) => {
-          this.$message({
-            type: 'error',
-            message: 'ログインに失敗しました'
-          });
-        });
-      }
+    signIn(){
+      this.$refs["loginForm"].validate((valid) => {
+        if (valid) {
+          const email = this.loginForm.email
+          const password = this.loginForm.password
+            authApi.signInWithEmailAndPassword(email, password)
+            .then(rslt => {
+              localStorage.loginedUserId = rslt.user.uid;
+              location.href="/";
+            }).catch((error) => {
+              this.$message({
+                type: 'error',
+                message: 'ログインに失敗しました'
+              });
+            });
+        } else {
+          return false;
+        }
+      });
     }
   },
 }

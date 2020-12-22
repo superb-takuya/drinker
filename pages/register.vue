@@ -67,13 +67,10 @@ export default {
     signUp() {
       this.$refs["registerForm"].validate((valid) => {
         if (valid) {
-          const nickName = this.registerForm.nickName
-          const email = this.registerForm.email
-          const password = this.registerForm.password
-          firebase.auth().createUserWithEmailAndPassword(email ,password).then(rslt => {
+          firebase.auth().createUserWithEmailAndPassword(this.registerForm.email ,this.registerForm.password).then(rslt => {
             const userUid = rslt.user.uid;
             firebase.firestore().collection('users').doc(userUid).set({
-              nickName: nickName,
+              nickName: this.registerForm.nickName,
               display: false,
               iconURL:"",
               imageURLs: [],
@@ -85,30 +82,23 @@ export default {
               createdAt: new Date(),
               updatedAt: new Date(),
             }).then(rslt=>{
-              this.$message({
-                type: 'success',
-                message: '登録に成功しました'
-              });
-              this.$store.commit({
-                type:   "auth/setLoginedUserId",
-                userId: rslt.user.uid,
-              });
+              console.log(rslt)
+              this.$store.commit({type: "auth/setLoginedUserId", userId: userUid});
+              this.$store.commit({type: "auth/setAuthenticateStatus", status: true});
+              this.$message({ type: 'success', message: '登録に成功しました'});
             }).catch(error => {
               console.log(error)
-              this.$message({
-                type: 'error',
-                message: '登録に失敗しました'
-              });
+              this.$store.commit({ type: "auth/setAuthenticateStatus", status: false});
+              this.$message({ type: 'error', message: '登録に失敗しました'});
             });
           }).catch((error) => {
+            console.log(error)
             let message = '登録に失敗しました';
             if(error.code == "auth/email-already-in-use"){
               message = "入力されたEmailはすでに使用されています";
             }
-            this.$message({
-              type: 'error',
-              message: message,
-            });
+            this.$store.commit({ type: "auth/setAuthenticateStatus", status: false});
+            this.$message({ type: 'error', message: message});
           });
         } else {
           return false;

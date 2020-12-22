@@ -4,7 +4,7 @@ export const state = () => ({
 
 
 export const mutations = {
-  setLoginedUserId(state,userId) {
-    state.loginedUserId = userId
+  setLoginedUserId(state,payload) {
+    state.loginedUserId = payload.userId
   }
 }

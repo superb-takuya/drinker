@@ -89,7 +89,10 @@ export default {
                 type: 'success',
                 message: '登録に成功しました'
               });
-              this.$store.commit("auth/setLoginedUserId",userUid);
+              this.$store.commit({
+                type:   "auth/setLoginedUserId",
+                userId: rslt.user.uid,
+              });
             }).catch(error => {
               console.log(error)
               this.$message({

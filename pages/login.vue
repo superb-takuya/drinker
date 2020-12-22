@@ -23,7 +23,6 @@
                   </el-form-item>
                 </el-form>
                 <hr>
-                {{ $store.state.auth.loginedUserId}}
                 <div class="auth-link">
                   <NuxtLink to="/register">新規登録はこちら</NuxtLink>
                 </div>
@@ -40,6 +39,8 @@
 </template>
 
 <script>
+import firebase from '@/plugins/firebase';
+
 export default {
   data() {
     return {
@@ -62,20 +63,16 @@ export default {
     signIn(){
       this.$refs["loginForm"].validate((valid) => {
         if (valid) {
-          this.$store.dispatch({
-            type:'auth/signIn',
-            email: this.loginForm.email,
-            password: this.loginForm.password 
+          firebase.auth().signInWithEmailAndPassword(this.loginForm.email, this.loginForm.password)
+          .then(rslt => {
+            this.$store.commit({type: "auth/setLoginedUserId", userId: rslt.user.uid});
+            this.$store.commit({type: "auth/setAuthenticateStatus", status: true});
+            this.$message({ type: 'success', message: 'ログインに成功しました'});
+          }).catch((error) => {
+            this.$store.commit({ type: "auth/setAuthenticateStatus", status: false});
+            this.$message({ type: 'error', message: 'ログインに失敗しました'});
           });
 
-          // if (loginFailed){
-          // }else{
-          // // location.href="/";
-          //   this.$message({
-          //     type: 'success',
-          //     message: 'ログインに成功しました'
-          //   });
-          // }
         } else {
           return false;
         }

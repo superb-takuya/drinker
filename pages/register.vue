@@ -89,7 +89,7 @@ export default {
                 type: 'success',
                 message: '登録に成功しました'
               });
-              localStorage.loginedUserId = userUid;
+              this.$store.commit("auth/setLoginedUserId",userUid);
             }).catch(error => {
               console.log(error)
               this.$message({

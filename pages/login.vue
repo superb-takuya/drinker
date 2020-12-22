@@ -59,6 +59,8 @@ export default {
     }
   },
   methods: {
+    test(){
+    },
     signIn(){
       this.$refs["loginForm"].validate((valid) => {
         if (valid) {
@@ -66,7 +68,7 @@ export default {
           const password = this.loginForm.password
             authApi.signInWithEmailAndPassword(email, password)
             .then(rslt => {
-              localStorage.loginedUserId = rslt.user.uid;
+              this.$store.commit("auth/setLoginedUserId",rslt.user.uid);
               location.href="/";
             }).catch((error) => {
               this.$message({

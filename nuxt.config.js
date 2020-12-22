@@ -24,6 +24,7 @@ export default {
   plugins: [
     { src: '~/plugins/element-ui'},
     { src: '~/plugins/firebase/index'},
+    { src: '~/plugins/localStorage.js'},
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

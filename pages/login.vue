@@ -65,11 +65,21 @@ export default {
         if (valid) {
           firebase.auth().signInWithEmailAndPassword(this.loginForm.email, this.loginForm.password)
           .then(rslt => {
-            this.$store.commit({type: "auth/setLoginedUserId", userId: rslt.user.uid});
-            this.$store.commit({type: "auth/setAuthenticateStatus", status: true});
-            this.$message({ type: 'success', message: 'ログインに成功しました'});
+            console.log(rslt)
+            const userUid = rslt.user.uid
+            firebase.firestore().collection('users').doc(userUid).get().then(doc => {
+              console.log(doc.data());
+              this.$store.commit({type: "user/setLoginedUser", userId: userUid, userIconURL: doc.data().iconURL, userCredit: doc.data().credit, userNickName: doc.data().nickName });
+              this.$store.commit({ type: "user/setAuthenticateStatus", status: true});
+              this.$message({ type: 'success', message: 'ログインに成功しました'});
+            }).catch((error) => {
+              console.log(error);
+              this.$store.commit({ type: "user/setAuthenticateStatus", status: false});
+              this.$message({ type: 'error', message: 'ログインに失敗しました'});
+            });
           }).catch((error) => {
-            this.$store.commit({ type: "auth/setAuthenticateStatus", status: false});
+            console.log(error);
+            this.$store.commit({ type: "user/setAuthenticateStatus", status: false});
             this.$message({ type: 'error', message: 'ログインに失敗しました'});
           });
 

@@ -67,6 +67,8 @@
 
 
 <script>
+import firebase from '@/plugins/firebase';
+
 export default {
   data() {
     return {
@@ -97,8 +99,16 @@ export default {
       this.$router.push(pagelink);
     },
     signOut(){
-      // signOut
-      location.href="/";
+      firebase.auth().signOut().then(()=> {
+        this.$store.commit({type: "user/setLoginedUser", userId: "", userIconURL: "", userCredit: "", userNickName: "" });
+        this.$store.commit({ type: "user/setAuthenticateStatus", status: false});
+        // signOut
+        location.href="/";
+      })
+      .catch((error) => {
+        console.log(error);
+        this.$message({ type: 'error', message: this.$errorMessage.SignOutFailedError});
+      });;
     }
   },
 };

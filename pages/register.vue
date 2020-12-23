@@ -67,42 +67,47 @@ export default {
     signUp() {
       this.$refs["registerForm"].validate((valid) => {
         if (valid) {
-          firebase.auth().createUserWithEmailAndPassword(this.registerForm.email ,this.registerForm.password).then(rslt => {
-            const userUid = rslt.user.uid;
-            firebase.firestore().collection('users').doc(userUid).set({
-              nickName: this.registerForm.nickName,
-              display: false,
-              iconURL:"/images/default-image.png",
-              imageURLs: [],
-              introduct: "",
-              freeTime: "",
-              chatApps: [],
-              salary: 0,
-              credit: 0,
-              createdAt: new Date(),
-              updatedAt: new Date(),
-            }).then(rslt=>{
-              console.log(rslt)
-              this.$store.commit({type: "user/setAuthenticateStatus", status: true});
-              this.$store.commit({type: "user/setLoginedUser", userId: userUid, userIconURL: "/images/default-image.png", userCredit: 0, userNickName: this.registerForm.nickName});
-              this.$message({ type: 'success', message: '登録に成功しました'});
-            }).catch(error => {
-              console.log(error)
-              this.$store.commit({ type: "user/setAuthenticateStatus", status: false});
-              this.$message({ type: 'error', message: '登録に失敗しました'});
-            });
-          }).catch((error) => {
-            console.log(error)
-            let message = '登録に失敗しました';
-            if(error.code == "user/email-already-in-use"){
-              message = "入力されたEmailはすでに使用されています";
-            }
-            this.$store.commit({ type: "user/setAuthenticateStatus", status: false});
-            this.$message({ type: 'error', message: message});
-          });
+          this.regist()
         } else {
           return false;
         }
+      });
+    },
+    regist(){
+      firebase.auth().createUserWithEmailAndPassword(this.registerForm.email ,this.registerForm.password).then(rslt => {
+        const userUid = rslt.user.uid;
+        firebase.firestore().collection('users').doc(userUid).set({
+          nickName: this.registerForm.nickName,
+          display: false,
+          iconURL:"/images/default-image.png",
+          imageURLs: [],
+          introduct: "",
+          freeTime: "",
+          chatApps: [],
+          salary: 0,
+          credit: 0,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }).then(rslt=>{
+          console.log(rslt)
+          this.$store.commit({type: "user/setAuthenticateStatus", status: true});
+          this.$store.commit({type: "user/setLoginedUser", userId: userUid, userIconURL: "/images/default-image.png", userCredit: 0, userNickName: this.registerForm.nickName});
+          this.$message({ type: 'success', message: '登録に成功しました'});
+          this.$message({ type: 'success', message: this.$errorMessage.RegistFailedError});
+
+        }).catch(error => {
+          console.log(error)
+          this.$store.commit({ type: "user/setAuthenticateStatus", status: false});
+          this.$message({ type: 'error', message: this.$errorMessage.RegistFailedError});
+        });
+      }).catch((error) => {
+        console.log(error)
+        let message = this.$errorMessage.RegistFailedError;
+        if(error.code == "user/email-already-in-use"){
+          message = this.$errorMessage.EmailAlreadyUsedError;
+        }
+        this.$store.commit({ type: "user/setAuthenticateStatus", status: false});
+        this.$message({ type: 'error', message: message});
       });
     }
   }

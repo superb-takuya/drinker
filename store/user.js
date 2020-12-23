@@ -1,5 +1,6 @@
+import firebase from '@/plugins/firebase';
 export const state = () => ({
-  authenticated: false,
+  authrized: false,
   loginedUserId: "",
   loginedUserIconURL: "",
   loginedUserCredit: 0,
@@ -8,7 +9,7 @@ export const state = () => ({
 
 export const mutations = {
   setAuthenticateStatus(state,payload) {
-    state.authenticated = payload.status
+    state.authrized = payload.status
   },
   setLoginedUser(state,payload) {
     state.loginedUserId = payload.userId
@@ -37,4 +38,6 @@ export const getters = {
 }
 
 export const actions = {
+  async signIn(){
+  }
 }

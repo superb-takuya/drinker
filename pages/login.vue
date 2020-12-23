@@ -63,9 +63,10 @@ export default {
     signIn(){
       this.$refs["loginForm"].validate((valid) => {
         if (valid) {
-          this.login()
+            this.login()
         } else {
           return false;
+
         }
       });
     },
@@ -78,7 +79,7 @@ export default {
           console.log(doc.data());
           this.$store.commit({type: "user/setLoginedUser", userId: userUid, userIconURL: doc.data().iconURL, userCredit: doc.data().credit, userNickName: doc.data().nickName });
           this.$store.commit({ type: "user/setAuthenticateStatus", status: true});
-          this.$message({ type: 'error', message: this.$errorMessage.LoginFailedError});
+          this.$message({ type: 'success', message: "ログインに成功しました"});
         }).catch((error) => {
           console.log(error);
           this.$store.commit({ type: "user/setAuthenticateStatus", status: false});

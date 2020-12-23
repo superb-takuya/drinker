@@ -6,11 +6,13 @@
           <el-image class="site-image" src="/images/title.png" fit="contain"></el-image>
         </nuxt-link>
         <div class="header-left-links flex">
-          <div v-for="h in headerLinks" :key="h.link"><nuxt-link :to="h.link">{{h.title}}</nuxt-link></div>
+          <div><nuxt-link to="/">ホーム</nuxt-link></div>
+          <div><nuxt-link to="/chat">メッセージ</nuxt-link></div>
+          <div><nuxt-link :to="/cast/+$store.state.user.loginedUserId">プロフィール</nuxt-link></div>
         </div>
       </div>
       <div class="header-right">
-        <div class="after-auth" v-if="auth">
+        <div class="after-auth" v-if="$store.state.user.authrized">
           <nuxt-link to="/notifications">
             <i class="icon el-icon-bell"></i>
           </nuxt-link>
@@ -25,7 +27,6 @@
         </div>
       </div>
     </el-container>
-
     <!-- drawer -->
     <el-drawer :visible.sync="drawer" :with-header="false" id="header-drawer" :size="drawerSize">
       <el-row>
@@ -33,17 +34,26 @@
           <el-header class="drawer-header">
           <div class="user flex">
             <div class="icon">
-              <el-avatar class="icon" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+              <el-avatar class="icon" :src="$store.state.user.loginedUserIconURL"></el-avatar>
             </div>
             <div>
-              <div class="username">なまえ</div>
-              <div class="credit">所有クレジット：500</div>
+              <div class="username">{{$store.state.user.loginedUserNickName}}</div>
+              <div class="credit">所有クレジット：{{$store.state.user.loginedUserCredit}}</div>
             </div>
           </div>
           </el-header>
           <el-menu>
-            <el-menu-item v-for="d in drawerData" :key="d.title" @click="showPage(d.link)">
-              <span>{{d.title}}</span>
+            <el-menu-item @click="showPage('/cast/'+$store.state.user.loginedUserId)">
+              <span>プロフィール</span>
+            </el-menu-item>
+            <el-menu-item @click="showPage('/mypage/edit')">
+              <span>プロフィール編集</span>
+            </el-menu-item>
+            <el-menu-item @click="showPage('/credit/market')">
+              <span>クレジット購入/履歴</span>
+            </el-menu-item>
+            <el-menu-item @click="showPage('/dashbord')">
+              <span>ダッシュボード</span>
             </el-menu-item>
             <el-menu-item @click="signOut">
               <span>ログアウト</span>
@@ -60,41 +70,8 @@
 export default {
   data() {
     return {
-      auth: true,
       drawer: false,
       drawerSize: '25%',
-      drawerData:[
-        {
-          title: 'プロフィール',
-          link: '/cast/1',
-        },
-        {
-          title: 'プロフィール編集',
-          link: '/mypage/edit',
-        },
-        {
-          title: 'クレジット購入/履歴',
-          link: '/credit/market',
-        },
-        {
-          title: 'ダッシュボード',
-          link: '/dashbord',
-        },
-      ],
-      headerLinks:[
-        {
-          title: 'ホーム',
-          link: '/',
-        },
-        {
-          title: 'メッセージ',
-          link: '/chat',
-        },
-        {
-          title: 'プロフィール',
-          link: '/cast/1',
-        },
-      ]
     };
   },
   mounted: function(){

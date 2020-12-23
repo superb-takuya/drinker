@@ -6,9 +6,9 @@
           <el-image class="site-image" src="/images/title.png" fit="contain"></el-image>
         </nuxt-link>
         <div class="header-left-links flex">
-          <div><nuxt-link to="/">ホーム</nuxt-link></div>
-          <div><nuxt-link to="/chat">メッセージ</nuxt-link></div>
-          <div><nuxt-link :to="/cast/+$store.state.user.loginedUserId">プロフィール</nuxt-link></div>
+          <div><nuxt-link to="/" class="decoration-none">ホーム</nuxt-link></div>
+          <div><nuxt-link to="/chat" class="decoration-none">メッセージ</nuxt-link></div>
+          <div><nuxt-link :to="/cast/+$store.state.user.loginedUserId" class="decoration-none">プロフィール</nuxt-link></div>
         </div>
       </div>
       <div class="header-right">
@@ -22,8 +22,8 @@
           <i class="icon el-icon-menu drawer-small" @click="drawer = true"></i>
         </div>
         <div class="before-auth" v-else>
-          <el-button round plain>ログイン</el-button>
-          <el-button round type="primary">新規登録</el-button>
+          <el-button round plain @click="showPage('/login')">ログイン</el-button>
+          <el-button round type="primary" @click="showPage('/register')">新規登録</el-button>
         </div>
       </div>
     </el-container>

@@ -7,6 +7,15 @@
   .header-left{
     text-align: left;
     .header-left-links{
+      .decoration-none{
+        text-decoration: none;
+        :hover{
+          text-decoration: none;
+        }
+        :focus{
+          text-decoration: none;
+        }
+      }
       @media (max-width: 896px){
         display: none;
       }
@@ -41,6 +50,10 @@
           margin-right: 5px;
         }
       }
+    }
+    .before-auth{
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
     }
   }
   .el-drawer__body{

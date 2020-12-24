@@ -11,4 +11,5 @@ Vue.prototype.$errorMessage = {
     EmailRequiredError: 'メールアドレス が入力されていません',
     PasswordRequiredError: 'パスワード が入力されていません',
     SignOutFailedError: 'サインアウトに失敗しました',
+    GetUserFailed: 'ユーザー情報の取得に失敗しました',
 }

@@ -83,7 +83,12 @@ export default {
           imageURLs: [],
           introduct: "",
           freeTime: "",
-          chatApps: [],
+          chatApps: {
+            zoom: false,
+            line: false,
+            discode: false,
+            other: false,
+          },
           salary: 0,
           credit: 0,
           createdAt: new Date(),
@@ -93,8 +98,6 @@ export default {
           this.$store.commit({type: "user/setAuthenticateStatus", status: true});
           this.$store.commit({type: "user/setLoginedUser", userId: userUid, userIconURL: "/images/default-image.png", userCredit: 0, userNickName: this.registerForm.nickName});
           this.$message({ type: 'success', message: '登録に成功しました'});
-          this.$message({ type: 'success', message: this.$errorMessage.RegistFailedError});
-
         }).catch(error => {
           console.log(error)
           this.$store.commit({ type: "user/setAuthenticateStatus", status: false});

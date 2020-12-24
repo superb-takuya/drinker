@@ -198,10 +198,18 @@
         input[type=file] { display:none; }
       }
     }
+    .form-cast-info{
+      .salary-setting{
+        .el-input-number{
+          width: 100%;
+        }
+      }
+    }
     .form-chat-info{
       .chat-app{
         height: auto;
         img{
+          border-radius: 25%;
           width: 6rem;
           height: 6rem;
         }

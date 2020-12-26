@@ -29,7 +29,8 @@
                 <div class="forget-password">
                   <NuxtLink to="/forget-password">パスワードを忘れた場合</NuxtLink>
                 </div>
-                {{$store.state.auth}}
+                  {{$store.state.auth}}
+                  {{$store.state.user}}
               </el-col>
             </el-row>
           </el-card>
@@ -59,7 +60,8 @@ export default {
     }
   },
   methods: {
-     ...mapMutations('auth', ['setAuthrized','clearAuthinfo']),
+    ...mapMutations('auth', ['setAuthrized','clearAuthinfo']),
+    ...mapMutations('user', ['setUser','clearUser']),
     signIn(){
       this.$refs["loginForm"].validate((valid) => {
         if (valid) {
@@ -68,16 +70,19 @@ export default {
             const userID = rslt.user.uid
             this.$userApi.getUserByID(userID).then(doc => {
             // 認証・ユーザー情報の取得に成功
-              this.setAuthrized({status: true,userId: userID, userIconURL: doc.data().iconURL, userCredit: doc.data().credit, userNickName: doc.data().nickName });
+              this.setAuthrized({state: true});
+              this.setUser({id: userID, iconURL: doc.data().iconURL, credit: doc.data().credit, nickName: doc.data().nickName });
               this.$message({ type: 'success', message: "ログインに成功しました"});
             }).catch((error) => {
               // ユーザーの取得に失敗した場合
               this.clearAuthinfo();
+              this.clearUser();
               this.$message({ type: 'error', message: this.$errorMessage.LoginFailedError});
             });
           }).catch((error) => {
             // 認証に失敗した場合
             this.clearAuthinfo();
+            this.clearUser();
             this.$message({ type: 'error', message: this.$errorMessage.LoginFailedError});
           });
         } else {

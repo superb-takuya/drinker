@@ -24,6 +24,8 @@ export default {
   plugins: [
     { src: '~/plugins/element-ui'},
     { src: '~/plugins/firebase/index'},
+    { src: '~/plugins/firebase/modules/auth'},
+    { src: '~/plugins/firebase/modules/user'},
     { src: '~/plugins/localStorage.js'},
     { src: '~/plugins/message.js'},
   ],

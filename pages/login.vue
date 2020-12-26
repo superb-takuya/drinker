@@ -29,6 +29,7 @@
                 <div class="forget-password">
                   <NuxtLink to="/forget-password">パスワードを忘れた場合</NuxtLink>
                 </div>
+                {{$store.state.auth}}
               </el-col>
             </el-row>
           </el-card>
@@ -39,15 +40,13 @@
 </template>
 
 <script>
-import firebase from '@/plugins/firebase';
-
+import { mapMutations} from 'vuex'
 export default {
   data() {
     return {
       loginForm:{
         email: "",
         password: "",
-        region: "",
       },
       rules: {
         email: [
@@ -60,35 +59,30 @@ export default {
     }
   },
   methods: {
+     ...mapMutations('auth', ['setAuthrized','clearAuthinfo']),
     signIn(){
       this.$refs["loginForm"].validate((valid) => {
         if (valid) {
-            this.login()
+          this.$authApi.signInWithEmail(this.loginForm.email, this.loginForm.password)
+          .then(rslt => {
+            const userID = rslt.user.uid
+            this.$userApi.getUserByID(userID).then(doc => {
+            // 認証・ユーザー情報の取得に成功
+              this.setAuthrized({status: true,userId: userID, userIconURL: doc.data().iconURL, userCredit: doc.data().credit, userNickName: doc.data().nickName });
+              this.$message({ type: 'success', message: "ログインに成功しました"});
+            }).catch((error) => {
+              // ユーザーの取得に失敗した場合
+              this.clearAuthinfo();
+              this.$message({ type: 'error', message: this.$errorMessage.LoginFailedError});
+            });
+          }).catch((error) => {
+            // 認証に失敗した場合
+            this.clearAuthinfo();
+            this.$message({ type: 'error', message: this.$errorMessage.LoginFailedError});
+          });
         } else {
           return false;
-
         }
-      });
-    },
-    login(){
-      firebase.auth().signInWithEmailAndPassword(this.loginForm.email, this.loginForm.password)
-      .then(rslt => {
-        console.log(rslt)
-        const userUid = rslt.user.uid
-        firebase.firestore().collection('users').doc(userUid).get().then(doc => {
-          console.log(doc.data());
-          this.$store.commit({type: "user/setLoginedUser", userId: userUid, userIconURL: doc.data().iconURL, userCredit: doc.data().credit, userNickName: doc.data().nickName });
-          this.$store.commit({ type: "user/setAuthenticateStatus", status: true});
-          this.$message({ type: 'success', message: "ログインに成功しました"});
-        }).catch((error) => {
-          console.log(error);
-          this.$store.commit({ type: "user/setAuthenticateStatus", status: false});
-          this.$message({ type: 'error', message: this.$errorMessage.LoginFailedError});
-        });
-      }).catch((error) => {
-        console.log(error);
-        this.$store.commit({ type: "user/setAuthenticateStatus", status: false});
-        this.$message({ type: 'error', message: this.$errorMessage.LoginFailedError});
       });
     },
   },

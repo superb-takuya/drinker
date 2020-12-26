@@ -119,7 +119,6 @@
                   </el-form-item>
                 </el-col>
               </el-row>
-              {{this.mypageEditForm}}
               <el-form-item>
                 <el-button>キャンセル</el-button>
                 <el-button type="primary"  @click="updateUser()">保存する</el-button>
@@ -163,20 +162,25 @@ export default {
     };
   },
   created(){
-    if(this.$store.state.user.authrized){
-        firebase.firestore().collection('users').doc(this.$store.state.user.loginedUserId).get().then(doc => {
-          const user = doc.data();
-          this.mypageEditForm.iconURL = user.iconURL;
-          this.mypageEditForm.nickName = user.nickName;
-          this.mypageEditForm.introduct = user.introduct;
-          this.mypageEditForm.freeTime = user.freeTime;
-          this.mypageEditForm.imageURLs = user.imageURLs;
-          this.mypageEditForm.display = user.display;
-          this.mypageEditForm.salary = user.salary;
-          this.mypageEditForm.chatApps = user.chatApps;
-        }).catch((error) => {
-          this.$message({ type: 'error', message: this.$errorMessage.GetUserFailed});
-        });
+    if(this.$store.state.user.id){
+      this.$userApi.getUserByID(this.$store.state.user.id).then(doc => {
+        const user = doc.data();
+        this.mypageEditForm = {
+          iconURL: user.iconURL,
+          nickName: user.nickName,
+          introduct: user.introduct,
+          freeTime: user.freeTime,
+          imageURLs: user.imageURLs,
+          display: user.display,
+          salary: user.salary,
+          chatApps: user.chatApps,
+        }
+      }).catch((error) => {
+        this.$message({ type: 'error', message: this.$errorMessage.GetUserFailed});
+      });
+    }
+    else{
+      alert("error")
     }
   },
   methods: {

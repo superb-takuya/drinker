@@ -122,7 +122,7 @@
               {{this.mypageEditForm}}
               <el-form-item>
                 <el-button>キャンセル</el-button>
-                <el-button type="primary">保存する</el-button>
+                <el-button type="primary"  @click="updateUser()">保存する</el-button>
               </el-form-item>
             </el-form>
           </el-card>
@@ -151,6 +151,14 @@ export default {
           discode: false,
           other: false,
         },
+        rules: {
+          nickName: [
+            { required: true, message: 'ニックネーム は必須です', trigger: 'blur' },
+          ],
+          password:[
+            { required: true, message: 'パスワード が入力されていません', trigger: 'blur' },
+          ],
+        },
       },
     };
   },
@@ -166,7 +174,6 @@ export default {
           this.mypageEditForm.display = user.display;
           this.mypageEditForm.salary = user.salary;
           this.mypageEditForm.chatApps = user.chatApps;
-
         }).catch((error) => {
           this.$message({ type: 'error', message: this.$errorMessage.GetUserFailed});
         });
@@ -182,7 +189,10 @@ export default {
     },
     handleDownload(file) {
       console.log(file);
-    }
+    },
+    updateUser(){
+      this.$message({ type: 'ok', message: "nice"});
+    },
   }
 }
 </script>

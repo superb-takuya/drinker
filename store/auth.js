@@ -12,7 +12,7 @@ export const mutations = {
 }
 
 export const getters = {
-  getAuthStatus (state) {
+  getAuthState (state) {
     return state.authrized
   },
 }

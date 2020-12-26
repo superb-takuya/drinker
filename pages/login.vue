@@ -29,8 +29,6 @@
                 <div class="forget-password">
                   <NuxtLink to="/forget-password">パスワードを忘れた場合</NuxtLink>
                 </div>
-                  {{$store.state.auth}}
-                  {{$store.state.user}}
               </el-col>
             </el-row>
           </el-card>

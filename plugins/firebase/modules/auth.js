@@ -9,4 +9,7 @@ class AuthApi {
   signInWithEmail (email, password) {
     return firebase.auth().signInWithEmailAndPassword(email, password);
   }
+  signOut () {
+    return firebase.auth().signOut();
+  }
 }

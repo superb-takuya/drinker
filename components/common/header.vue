@@ -8,11 +8,11 @@
         <div class="header-left-links flex">
           <div><nuxt-link to="/" class="decoration-none">ホーム</nuxt-link></div>
           <div><nuxt-link to="/chat" class="decoration-none">メッセージ</nuxt-link></div>
-          <div><nuxt-link :to="/cast/+$store.state.user.loginedUserId" class="decoration-none">プロフィール</nuxt-link></div>
+          <div><nuxt-link :to="/cast/+loginedUser.id" class="decoration-none">プロフィール</nuxt-link></div>
         </div>
       </div>
       <div class="header-right">
-        <div class="after-auth" v-if="$store.state.user.authrized">
+        <div class="after-auth" v-if="authrized">
           <nuxt-link to="/notifications">
             <i class="icon el-icon-bell"></i>
           </nuxt-link>
@@ -34,16 +34,16 @@
           <el-header class="drawer-header">
           <div class="user flex">
             <div class="icon">
-              <el-avatar class="icon" :src="$store.state.user.loginedUserIconURL"></el-avatar>
+              <el-avatar class="icon" :src="loginedUser.iconURL"></el-avatar>
             </div>
             <div>
-              <div class="username">{{$store.state.user.loginedUserNickName}}</div>
-              <div class="credit">所有クレジット：{{$store.state.user.loginedUserCredit}}</div>
+              <div class="username">{{loginedUser.nickName}}</div>
+              <div class="credit">所有クレジット：{{loginedUser.credit}}</div>
             </div>
           </div>
           </el-header>
           <el-menu>
-            <el-menu-item @click="showPage('/cast/'+$store.state.user.loginedUserId)">
+            <el-menu-item @click="showPage('/cast/'+loginedUser.id)">
               <span>プロフィール</span>
             </el-menu-item>
             <el-menu-item @click="showPage('/mypage/edit')">
@@ -67,13 +67,20 @@
 
 
 <script>
-import firebase from '@/plugins/firebase';
+import { mapMutations, mapGetters } from 'vuex'
 
 export default {
   data() {
     return {
       drawer: false,
       drawerSize: '25%',
+      authrized: false,
+      loginedUser: {
+        id: '',
+        nickName: '',
+        iconURL: '',
+        credit: 0,
+      },
     };
   },
   mounted: function(){
@@ -84,8 +91,24 @@ export default {
       window.addEventListener('resize', this.handleResize)
       this.handleResize()
     }
+    const authrized = this.getAuthState()
+    if (authrized){
+      this.authrized = authrized
+      const user = this.getUser()
+      this.loginedUser = {
+        id :user.id,
+        nickName :user.nickName,
+        iconURL :user.iconURL,
+        credit :user.credit,
+      }
+    }
   },
   methods: {
+    ...mapMutations('auth', ['clearAuthinfo']),
+    ...mapMutations('user', ['clearUser']),
+    ...mapGetters('auth', ['getAuthState']),
+    ...mapGetters('user', ['getUser']),
+
     handleResize: function() {
       let isSmall = window.matchMedia('(max-width: 767px)');
       if(isSmall.matches){
@@ -99,14 +122,12 @@ export default {
       this.$router.push(pagelink);
     },
     signOut(){
-      firebase.auth().signOut().then(()=> {
-        this.$store.commit({type: "user/setLoginedUser", userId: "", userIconURL: "", userCredit: "", userNickName: "" });
-        this.$store.commit({ type: "user/setAuthenticateStatus", status: false});
+      this.authApi.signOut().then(()=> {
+        this.clearAuthinfo();
+        this.clearUser();
         // signOut
         location.href="/";
-      })
-      .catch((error) => {
-        console.log(error);
+      }).catch((error) => {
         this.$message({ type: 'error', message: this.$errorMessage.SignOutFailedError});
       });;
     }

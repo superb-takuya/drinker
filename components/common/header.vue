@@ -8,11 +8,11 @@
         <div class="header-left-links flex">
           <div><nuxt-link to="/" class="decoration-none">ホーム</nuxt-link></div>
           <div><nuxt-link to="/chat" class="decoration-none">メッセージ</nuxt-link></div>
-          <div><nuxt-link :to="/cast/+loginedUser.id" class="decoration-none">プロフィール</nuxt-link></div>
+          <div><nuxt-link :to="/cast/+$store.state.user.id" class="decoration-none">プロフィール</nuxt-link></div>
         </div>
       </div>
       <div class="header-right">
-        <div class="after-auth" v-if="authrized">
+        <div class="after-auth" v-if="$store.state.auth.authrized">
           <nuxt-link to="/notifications">
             <i class="icon el-icon-bell"></i>
           </nuxt-link>
@@ -34,16 +34,16 @@
           <el-header class="drawer-header">
           <div class="user flex">
             <div class="icon">
-              <el-avatar class="icon" :src="loginedUser.iconURL"></el-avatar>
+              <el-avatar class="icon" :src="$store.state.user.iconURL"></el-avatar>
             </div>
             <div>
-              <div class="username">{{loginedUser.nickName}}</div>
-              <div class="credit">所有クレジット：{{loginedUser.credit}}</div>
+              <div class="username">{{$store.state.user.nickName}}</div>
+              <div class="credit">所有クレジット：{{$store.state.user.credit}}</div>
             </div>
           </div>
           </el-header>
           <el-menu>
-            <el-menu-item @click="showPage('/cast/'+loginedUser.id)">
+            <el-menu-item @click="showPage('/cast/'+$store.state.user.id)">
               <span>プロフィール</span>
             </el-menu-item>
             <el-menu-item @click="showPage('/mypage/edit')">

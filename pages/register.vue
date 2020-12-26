@@ -78,7 +78,7 @@ export default {
     regist(){
       this.$authApi.createUserWithEmail(this.registerForm.email ,this.registerForm.password).then(rslt => {
         const userID = rslt.user.uid;
-        const nickName = this.registerForm.nickName
+        const nickName = this.registerForm.nickName;
         this.$userApi.createUser(userID, nickName).then(rslt=>{
           this.setAuthrized({state: true});
           this.setUser({id: userID, iconURL: "/images/default-image.png", credit: 0, nickName: nickName });

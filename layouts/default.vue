@@ -2,6 +2,7 @@
   <div>
     <app-header />
     <main>
+      {{$store.state}}
       <Nuxt />
     </main>
     <app-footer />

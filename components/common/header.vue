@@ -91,6 +91,8 @@ export default {
       window.addEventListener('resize', this.handleResize)
       this.handleResize()
     }
+  },
+  mounted(){
     const authrized = this.getAuthState()
     if (authrized){
       this.authrized = authrized
@@ -122,7 +124,7 @@ export default {
       this.$router.push(pagelink);
     },
     signOut(){
-      this.authApi.signOut().then(()=> {
+      this.$authApi.signOut().then(()=> {
         this.clearAuthinfo();
         this.clearUser();
         // signOut

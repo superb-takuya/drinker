@@ -12,4 +12,5 @@ Vue.prototype.$errorMessage = {
     PasswordRequiredError: 'パスワード が入力されていません',
     SignOutFailedError: 'サインアウトに失敗しました',
     GetUserFailed: 'ユーザー情報の取得に失敗しました',
+    UpdateUserFailed: 'ユーザー情報の更新に失敗しました',
 }

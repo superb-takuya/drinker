@@ -195,6 +195,14 @@ export default {
       console.log(file);
     },
     updateUser(){
+      const form =  this.mypageEditForm;
+      // need validations
+        this.$userApi.updateUser(form.id, form.nickName, form.Display, form.iconURL, form.introduct, form.freeTime, form.zoom, form.line, form.discode, form.other, form.salary).then(res => {
+          console.log(res);
+        this.$message({ type: 'error', message: this.$errorMessage.GetUserFailed});
+        }).catch((error) => {
+        this.$message({ type: 'error', message: this.$errorMessage.UpdateUserFailed});
+      });
       this.$message({ type: 'ok', message: "nice"});
     },
   }

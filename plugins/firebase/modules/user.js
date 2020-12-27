@@ -27,6 +27,23 @@ class UserApi {
       credit: 0,
       createdAt: new Date(),
       updatedAt: new Date(),
-    })
+    });
+  }
+  updateUser(id, nickName, display, iconURL,introduct, freeTime, zoom, line, discode, other, salary){
+    return firebase.firestore().collection('users').doc(id).set({
+      nickName: nickName,
+      display: display,
+      iconURL: iconURL,
+      introduct: introduct,
+      freeTime: freeTime,
+      chatApps: {
+        zoom: zoom,
+        line: line,
+        discode: discode,
+        other: other,
+      },
+      salary: salary,
+      updatedAt: new Date(),
+    });
   }
 }

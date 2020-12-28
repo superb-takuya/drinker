@@ -4,7 +4,7 @@
       <el-row justify="center">
         <el-col :xs="24" :sm="24" :md="24">
           <el-card class="cast-card my-2" :body-style="{ padding: '0px' }">
-            <el-form :model="mypageEditForm" ref="mypageEditForm">
+            <el-form :model="mypageEditForm" ref="mypageEditForm" :rules="rules">
               <el-row justify="center">
                 <el-col :xs="24" :sm="24" :md="24">
                   <div class="mb-1 font-bold font-title">基本情報</div>
@@ -13,50 +13,19 @@
               <el-row justify="center" class="form-basic-info">
                 <el-col :xs="24" :sm="8" :md="6">
                   <el-image class="cast-image" :src="mypageEditForm.iconURL" fit="cover"></el-image>
-                  <el-upload class="image-uploader my-1" action="https://jsonplaceholder.typicode.com/posts/">
+                  <el-upload class="image-uploader my-1" action="" :limit="1" :on-change="uploadIcon" :multiple="false" :show-file-list="false">
                     <el-button slot="trigger" type="primary">変更する</el-button>
                   </el-upload>
                 </el-col>
                 <el-col :xs="24" :sm="16" :md="18">
-                  <el-form-item>
+                  <el-form-item prop="nickName">
                     <el-input placeholder="ユーザー名" v-model="mypageEditForm.nickName"></el-input>
                   </el-form-item>
-                  <el-form-item>
+                  <el-form-item prop="introduct">
                     <el-input type="textarea" :rows="6" placeholder="自己紹介(最大800文字)" v-model="mypageEditForm.introduct"></el-input>
                   </el-form-item>
-                  <el-form-item>
+                  <el-form-item prop="freeTime">
                     <el-input type="textarea" :rows="4" placeholder="都合のつきやすい日時(最大400文字)" v-model="mypageEditForm.freeTime"></el-input>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row justify="center mt-1">
-                <el-col :xs="24" :sm="24" :md="24">
-                  <div class="mb-1 font-bold font-title">画像の登録</div>
-                </el-col>
-              </el-row>
-              <el-row class="form-image-upload">
-                <el-col :xs="24" :sm="24" :md="24">
-                  <el-form-item>
-                    <el-upload class="image-uploader" list-type="picture-card" :auto-upload="false">
-                      <i slot="default" class="el-icon-plus"></i>
-                      <div slot="file" slot-scope="{file}">
-                        <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
-                        <span class="el-upload-list__item-actions">
-                          <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
-                            <i class="el-icon-zoom-in"></i>
-                          </span>
-                          <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleDownload(file)">
-                            <i class="el-icon-download"></i>
-                          </span>
-                          <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleRemove(file)">
-                            <i class="el-icon-delete"></i>
-                          </span>
-                        </span>
-                      </div>
-                    </el-upload>
-                    <!-- <el-dialog :visible.sync="dialogVisible">
-                      <img width="100%" :src="dialogImageUrl" alt="">
-                    </el-dialog> -->
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -66,10 +35,10 @@
                 </el-col>
               </el-row>
               <el-row class="form-cast-info">
-                <el-form-item>
+                <el-form-item prop="display">
                   <el-checkbox v-model="mypageEditForm.display">公開する</el-checkbox>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item prop="salary">
                   <div class="flex salary-setting">
                     <el-col :xs="10" :sm="6" :md="4">
                       <el-input-number v-model="mypageEditForm.salary" :step="100"></el-input-number>
@@ -87,7 +56,7 @@
               </el-row>
               <el-row class="form-chat-info flex">
                 <el-col :xs="8" :sm="8" :md="3">
-                  <el-form-item>
+                  <el-form-item prop="zoom">
                     <div class="chat-app grid">
                       <el-image src="/images/chat-app/zoom.jpg" fit="cover"></el-image>
                       <el-checkbox v-model="mypageEditForm.chatApps.zoom">Zoom</el-checkbox>
@@ -95,7 +64,7 @@
                   </el-form-item>
                 </el-col>
                 <el-col :xs="8" :sm="8" :md="3">
-                  <el-form-item>
+                  <el-form-item prop="line">
                     <div class="chat-app grid">
                       <el-image src="/images/chat-app/line.jpg" fit="cover"></el-image>
                       <el-checkbox v-model="mypageEditForm.chatApps.line">Line</el-checkbox>
@@ -103,7 +72,7 @@
                   </el-form-item>
                 </el-col>
                 <el-col :xs="8" :sm="8" :md="3">
-                  <el-form-item>
+                  <el-form-item prop="discode">
                     <div class="chat-app grid">
                       <el-image src="/images/chat-app/discode.jpg" fit="cover"></el-image>
                       <el-checkbox v-model="mypageEditForm.chatApps.discode">Discode</el-checkbox>
@@ -111,7 +80,7 @@
                   </el-form-item>
                 </el-col>
                 <el-col :xs="8" :sm="8" :md="3">
-                  <el-form-item>
+                  <el-form-item prop="other">
                     <div class="chat-app grid">
                       <el-image src="/images/chat-app/other.jpg" fit="cover"></el-image>
                       <el-checkbox v-model="mypageEditForm.chatApps.other">その他</el-checkbox>
@@ -132,7 +101,8 @@
 </template>
 
 <script>
-import firebase from '@/plugins/firebase';
+import { mapMutations, mapGetters } from 'vuex'
+
 export default {
   data() {
     return {
@@ -141,7 +111,6 @@ export default {
         nickName: "",
         introduct: "",
         freeTime: "",
-        imageURLs: [],
         display: false,
         salary: 0,
         chatApps: {
@@ -150,31 +119,28 @@ export default {
           discode: false,
           other: false,
         },
-        rules: {
-          nickName: [
-            { required: true, message: 'ニックネーム は必須です', trigger: 'blur' },
-          ],
-          password:[
-            { required: true, message: 'パスワード が入力されていません', trigger: 'blur' },
-          ],
-        },
+      },
+      rules: {
+        nickName: [
+          { required: true, message: 'ニックネーム は必須です', trigger: 'blur' },
+        ],
       },
     };
   },
-  created(){
-    if(this.$store.state.user.id){
-      this.$userApi.getUserByID(this.$store.state.user.id).then(doc => {
+  created: function(){
+    const userId = this.getUserId();
+    if(userId){
+      this.$userApi.getUserByID(userId).then(doc => {
         const user = doc.data();
         this.mypageEditForm = {
           iconURL: user.iconURL,
           nickName: user.nickName,
           introduct: user.introduct,
           freeTime: user.freeTime,
-          imageURLs: user.imageURLs,
           display: user.display,
           salary: user.salary,
           chatApps: user.chatApps,
-        }
+        };
       }).catch((error) => {
         this.$message({ type: 'error', message: this.$errorMessage.GetUserFailed});
       });
@@ -184,26 +150,37 @@ export default {
     }
   },
   methods: {
-    handleRemove(file) {
-      console.log(file);
-    },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
-    handleDownload(file) {
-      console.log(file);
+    ...mapMutations('user', ['setUser', 'setUserIconURL', 'setUserNickName']),
+    ...mapGetters('user', ['getUserId']),
+    uploadIcon (f) {
+      const file = f.raw;
+      const userId = this.getUserId();
+      this.$store.dispatch('user/uploadIconToStrage', {userId: userId, file: file}).then(url => {
+        this.$store.dispatch('user/updateUserIconURL', {userId: userId, iconURL: url}).then(() => {
+          this.mypageEditForm.iconURL = url;
+          this.setUserIconURL({iconURL: url});
+        }).catch((error)=>{
+          this.$message({ type: 'error', message: this.$errorMessage.imageUploadFailed});
+        });
+      }).catch((error)=>{
+        this.$message({ type: 'error', message: this.$errorMessage.imageUploadFailed});
+      });
     },
     updateUser(){
-      const form =  this.mypageEditForm;
-      // need validations
-        this.$userApi.updateUser(form.id, form.nickName, form.Display, form.iconURL, form.introduct, form.freeTime, form.zoom, form.line, form.discode, form.other, form.salary).then(res => {
-          console.log(res);
-        this.$message({ type: 'error', message: this.$errorMessage.GetUserFailed});
-        }).catch((error) => {
-        this.$message({ type: 'error', message: this.$errorMessage.UpdateUserFailed});
+      this.$refs["mypageEditForm"].validate((valid) => {
+        if (valid) {
+          const form =  this.mypageEditForm;
+          this.$userApi.updateUser(this.getUserId(), form.nickName, form.display, form.iconURL, form.introduct, form.freeTime, form.salary, form.chatApps.zoom, form.chatApps.line, form.chatApps.discode, form.chatApps.other).then(() => {
+            this.setUserNickName({nickName: form.nickName})
+            this.$message({ type: 'success', message: this.$infoMessage.ProfileUpdated});
+          }).catch((error) => {
+            this.$message({ type: 'error', message: this.$errorMessage.UpdateUserFailed});
+          });
+        } else {
+          this.$message({ type: 'error', message: this.$errorMessage.FormValidated});
+          return false;
+        }
       });
-      this.$message({ type: 'ok', message: "nice"});
     },
   }
 }

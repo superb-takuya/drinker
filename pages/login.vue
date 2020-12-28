@@ -58,18 +58,15 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('auth', ['setAuthrized','clearAuthinfo']),
+    ...mapMutations('auth', ['clearAuthinfo']),
     ...mapMutations('user', ['setUser','clearUser']),
     signIn(){
       this.$refs["loginForm"].validate((valid) => {
         if (valid) {
-          this.$authApi.signInWithEmail(this.loginForm.email, this.loginForm.password)
-          .then(rslt => {
-            const userID = rslt.user.uid
-            this.$userApi.getUserByID(userID).then(doc => {
-            // 認証・ユーザー情報の取得に成功
-              this.setAuthrized({state: true});
-              this.setUser({id: userID, iconURL: doc.data().iconURL, credit: doc.data().credit, nickName: doc.data().nickName });
+          const form = this.loginForm;
+          this.$store.dispatch('auth/signInWithEmail', {email: form.email, password: form.password}).then(userId => {
+            this.$userApi.getUserByID(userId).then(doc => {
+              this.setUser({id: userId, iconURL: doc.data().iconURL, credit: doc.data().credit, nickName: doc.data().nickName });
               this.$message({ type: 'success', message: "ログインに成功しました"});
             }).catch((error) => {
               // ユーザーの取得に失敗した場合

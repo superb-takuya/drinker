@@ -46,8 +46,14 @@ export const getters = {
 export const actions = {
   uploadIconToStrage: (context, payload) => {
     return new Promise((resolve, reject) => {
+      firebase.firestore().collection('users').doc(userID).get().then((res) => {
+        resolve(res.user)
+      });
+    });
+  },
+  uploadIconToStrage: (context, payload) => {
+    return new Promise((resolve, reject) => {
       const uploadTask = firestorage.ref('users/'+ payload.userId + payload.file.name).put(payload.file).then(snapshot => {
-        console.log(snapshot);
         snapshot.ref.getDownloadURL().then(url => {
           resolve(url)
         });

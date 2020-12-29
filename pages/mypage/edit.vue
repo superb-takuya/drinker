@@ -101,7 +101,7 @@
 </template>
 
 <script>
-import { mapMutations, mapGetters } from 'vuex'
+import { mapMutations, mapGetters, mapActions } from 'vuex'
 
 export default {
   data() {
@@ -128,10 +128,9 @@ export default {
     };
   },
   created: function(){
-    const userId = this.getUserId();
+    const userId = this.userIdGetter();
     if(userId){
-      this.$userApi.getUserByID(userId).then(doc => {
-        const user = doc.data();
+      this.getUserByIdAction({id: userId}).then(user => {
         this.mypageEditForm = {
           iconURL: user.iconURL,
           nickName: user.nickName,
@@ -150,15 +149,15 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('user', ['setUser', 'setUserIconURL', 'setUserNickName']),
-    ...mapGetters('user', ['getUserId']),
+    ...mapMutations('user', ['userSetter', 'userNickNameSetter']),
+    ...mapGetters('user', ['userIdGetter']),
+    ...mapActions('user', ['getUserByIdAction', 'updateUserAction', 'updateUserIconURLAction', 'uploadIconToStrageAction']),
     uploadIcon (f) {
       const file = f.raw;
-      const userId = this.getUserId();
-      this.$store.dispatch('user/uploadIconToStrage', {userId: userId, file: file}).then(url => {
-        this.$store.dispatch('user/updateUserIconURL', {userId: userId, iconURL: url}).then(() => {
+      const userId = this.userIdGetter();
+      this.uploadIconToStrageAction({id: userId, file: file}).then(url => {
+        this.updateUserIconURLAction({id: userId, iconURL: url}).then(() => {
           this.mypageEditForm.iconURL = url;
-          this.setUserIconURL({iconURL: url});
         }).catch((error)=>{
           this.$message({ type: 'error', message: this.$errorMessage.imageUploadFailed});
         });
@@ -170,8 +169,19 @@ export default {
       this.$refs["mypageEditForm"].validate((valid) => {
         if (valid) {
           const form =  this.mypageEditForm;
-          this.$userApi.updateUser(this.getUserId(), form.nickName, form.display, form.iconURL, form.introduct, form.freeTime, form.salary, form.chatApps.zoom, form.chatApps.line, form.chatApps.discode, form.chatApps.other).then(() => {
-            this.setUserNickName({nickName: form.nickName})
+          this.updateUserAction({
+            id: this.userIdGetter(),
+            nickName: form.nickName,
+            display: form.display,
+            introduct: form.introduct,
+            freeTime: form.freeTime,
+            salary: form.salary,
+            zoom: form.chatApps.zoom,
+            line: form.chatApps.line,
+            discode: form.chatApps.discode,
+            other: form.chatApps.other,
+           }).then(() => {
+            this.userNickNameSetter({nickName: form.nickName});
             this.$message({ type: 'success', message: this.$infoMessage.ProfileUpdated});
           }).catch((error) => {
             this.$message({ type: 'error', message: this.$errorMessage.UpdateUserFailed});

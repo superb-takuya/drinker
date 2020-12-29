@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapMutations} from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 export default {
   data() {
     return {
@@ -58,15 +58,17 @@ export default {
     }
   },
   methods: {
+    ...mapActions('auth', ['signInWithEmailAction']),
     ...mapMutations('auth', ['clearAuthinfo']),
-    ...mapMutations('user', ['setUser','clearUser']),
+    ...mapMutations('user', ['userSetter','clearUser']),
+    ...mapActions('user', ['getUserByIdAction']),
     signIn(){
       this.$refs["loginForm"].validate((valid) => {
         if (valid) {
           const form = this.loginForm;
-          this.$store.dispatch('auth/signInWithEmail', {email: form.email, password: form.password}).then(userId => {
-            this.$userApi.getUserByID(userId).then(doc => {
-              this.setUser({id: userId, iconURL: doc.data().iconURL, credit: doc.data().credit, nickName: doc.data().nickName });
+          this.signInWithEmailAction({email: form.email, password: form.password}).then(userId => {
+            this.getUserByIdAction({id:userId}).then((user) => {
+              this.userSetter({id: userId, iconURL: user.iconURL, credit: user.credit, nickName: user.nickName});
               this.$message({ type: 'success', message: "ログインに成功しました"});
             }).catch((error) => {
               // ユーザーの取得に失敗した場合

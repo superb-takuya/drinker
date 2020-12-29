@@ -67,7 +67,7 @@
 
 
 <script>
-import { mapMutations, mapGetters } from 'vuex'
+import { mapMutations, mapGetters, mapActions } from 'vuex'
 
 export default {
   data() {
@@ -93,10 +93,10 @@ export default {
     }
   },
   mounted(){
-    const authrized = this.getAuthState()
+    const authrized = this.authStateGetter()
     if (authrized){
       this.authrized = authrized
-      const user = this.getUser()
+      const user = this.userGetter()
       this.loginedUser = {
         id :user.id,
         nickName :user.nickName,
@@ -108,9 +108,9 @@ export default {
   methods: {
     ...mapMutations('auth', ['clearAuthinfo']),
     ...mapMutations('user', ['clearUser']),
-    ...mapGetters('auth', ['getAuthState']),
-    ...mapGetters('user', ['getUser']),
-
+    ...mapGetters('auth', ['authStateGetter']),
+    ...mapGetters('user', ['userGetter']),
+    ...mapActions('auth', ['signOutAction']),
     handleResize: function() {
       let isSmall = window.matchMedia('(max-width: 767px)');
       if(isSmall.matches){
@@ -124,7 +124,7 @@ export default {
       this.$router.push(pagelink);
     },
     signOut(){
-      this.$authApi.signOut().then(()=> {
+      this.signOutAction().then(()=> {
         this.clearAuthinfo();
         this.clearUser();
         // signOut

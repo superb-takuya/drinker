@@ -9,7 +9,7 @@ export const state = () => ({
 })
 
 export const mutations = {
-  setUser(state,payload) {
+  userSetter(state,payload) {
     state.id = payload.id;
     state.iconURL = payload.iconURL;
     state.credit = payload.credit;
@@ -21,16 +21,16 @@ export const mutations = {
     state.credit = 0;
     state.nickName = "";
   },
-  setUserNickName(state,payload){
+  userNickNameSetter(state,payload){
     state.nickName = payload.nickName;
   },
-  setUserIconURL(state, payload){
+  userIconURLSetter(state, payload){
     state.iconURL = payload.iconURL;
   }
 }
   
 export const getters = {
-  getUser(state){
+  userGetter(state){
     return {
       id: state.id,
       iconURL: state.iconURL,
@@ -38,52 +38,79 @@ export const getters = {
       nickName: state.nickName,
     }
   },
-  getUserId(state){
+  userIdGetter(state){
     return state.id;
   }
 }
 
 export const actions = {
-  uploadIconToStrage: (context, payload) => {
+  getUserByIdAction: (context, payload) => {
     return new Promise((resolve, reject) => {
-      firebase.firestore().collection('users').doc(userID).get().then((res) => {
-        resolve(res.user)
+      firebase.firestore().collection('users').doc(payload.id).get().then((res) => {
+        resolve(res.data())
       });
     });
   },
-  uploadIconToStrage: (context, payload) => {
+  createUserAction:(context, payload) =>{
+    return new Promise((resolve, reject) =>{
+      firebase.firestore().collection('users').doc(payload.id).set({
+        nickName: payload.nickName,
+        display: false,
+        iconURL:"/images/default-image.png",
+        introduct: "",
+        freeTime: "",
+        chatApps: {
+          zoom: false,
+          line: false,
+          discode: false,
+          other: false,
+        },
+        salary: 0,
+        credit: 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }).then(()=>{
+        resolve();
+      });
+    })
+  },
+  updateUserAction: (context, payload) => {
     return new Promise((resolve, reject) => {
-      const uploadTask = firestorage.ref('users/'+ payload.userId + payload.file.name).put(payload.file).then(snapshot => {
+      firebase.firestore().collection('users').doc(payload.id).update({
+        nickName: payload.nickName,
+        display: payload.display,
+        introduct: payload.introduct,
+        freeTime: payload.freeTime,
+        salary: payload.salary,
+        chatApps: {
+          zoom: payload.zoom,
+          line: payload.line,
+          discode: payload.discode,
+          other: payload.other,
+        },
+        updatedAt: new Date(),
+      }).then(() => {
+        resolve();
+      });
+    });
+  },
+  uploadIconToStrageAction: (context, payload) => {
+    return new Promise((resolve, reject) => {
+      const uploadTask = firestorage.ref('users/'+ payload.id + payload.file.name).put(payload.file).then(snapshot => {
         snapshot.ref.getDownloadURL().then(url => {
           resolve(url)
         });
       });
     });
   },
-  updateUserIconURL: (context, payload) => {
+  updateUserIconURLAction: (context, payload) => {
     return new Promise((resolve, reject) => {
-      firebase.firestore().collection('users').doc(payload.userId).update({
+      firebase.firestore().collection('users').doc(payload.id).update({
         iconURL: payload.iconURL
       }).then(() => {
+        context.commit('userIconURLSetter', {iconURL: payload.iconURL});
         resolve();
       });
     });
   },
-  updateUser(id, nickName, display, iconURL, introduct, freeTime, salary, zoom, line, discode, other){
-    return firebase.firestore().collection('users').doc(id).set({
-      nickName: nickName,
-      display: display,
-      iconURL: iconURL,
-      introduct: introduct,
-      freeTime: freeTime,
-      salary: salary,
-      chatApps: {
-        zoom: zoom,
-        line: line,
-        discode: discode,
-        other: other,
-      },
-      updatedAt: new Date(),
-    });
-  }
 }

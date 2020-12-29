@@ -38,7 +38,7 @@
   </div>
 </template>
 <script>
-import { mapMutations} from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 
 export default {
   data() {
@@ -65,39 +65,37 @@ export default {
   },
   methods: {
     ...mapMutations('auth', ['setAuthrized','clearAuthinfo']),
-    ...mapMutations('user', ['setUser','clearUser']),
+    ...mapMutations('user', ['userSetter','clearUser']),
+    ...mapActions('auth', ['createUserWithEmailAction']),
+    ...mapActions('user', ['createUserAction']),
     signUp() {
       this.$refs["registerForm"].validate((valid) => {
         if (valid) {
-          this.regist()
+          this.createUserWithEmailAction({email:this.registerForm.email ,password: this.registerForm.password}).then(user => {
+            const userID = user.uid;
+            const nickName = this.registerForm.nickName;
+            this.createUserAction({id:userID, nickName: nickName}).then(() => {
+              this.userSetter({id: userID, iconURL: "/images/default-image.png", credit: 0, nickName: nickName });
+              this.$message({ type: 'success', message: '登録に成功しました'});
+            }).catch(error => {
+              this.clearAuthinfo();
+              this.clearUser();
+              this.$message({ type: 'error', message: this.$errorMessage.RegistFailedError});
+            });
+          }).catch((error) => {
+            let message = this.$errorMessage.RegistFailedError;
+            if(error.code == "user/email-already-in-use"){
+              message = this.$errorMessage.EmailAlreadyUsedError;
+            }
+            this.clearAuthinfo();
+            this.clearUser();
+            this.$message({ type: 'error', message: message});
+          });
         } else {
           return false;
         }
       });
     },
-    regist(){
-      this.$authApi.createUserWithEmail(this.registerForm.email ,this.registerForm.password).then(rslt => {
-        const userID = rslt.user.uid;
-        const nickName = this.registerForm.nickName;
-        this.$userApi.createUser(userID, nickName).then(rslt=>{
-          this.setAuthrized({state: true});
-          this.setUser({id: userID, iconURL: "/images/default-image.png", credit: 0, nickName: nickName });
-          this.$message({ type: 'success', message: '登録に成功しました'});
-        }).catch(error => {
-          this.clearAuthinfo();
-          this.clearUser();
-          this.$message({ type: 'error', message: this.$errorMessage.RegistFailedError});
-        });
-      }).catch((error) => {
-        let message = this.$errorMessage.RegistFailedError;
-        if(error.code == "user/email-already-in-use"){
-          message = this.$errorMessage.EmailAlreadyUsedError;
-        }
-        this.clearAuthinfo();
-        this.clearUser();
-        this.$message({ type: 'error', message: message});
-      });
-    }
   }
 }
 </script>

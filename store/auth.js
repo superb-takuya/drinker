@@ -5,7 +5,7 @@ export const state = () => ({
 })
 
 export const mutations = {
-  setAuthrized(state,payload) {
+  authrizedSetter(state,payload) {
     state.authrized = payload.state;
   },
   clearAuthinfo(state){
@@ -14,17 +14,32 @@ export const mutations = {
 }
 
 export const getters = {
-  getAuthState (state) {
+  authStateGetter (state) {
     return state.authrized
   },
 }
 
 export const actions = {
-  signInWithEmail: (context, payload) => {
+  signInWithEmailAction: (context, payload) => {
     return new Promise((resolve, reject) => {
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password).then(res => {
-        context.commit('setAuthrized', {state: true} );
+        context.commit('authrizedSetter', {state: true});
         resolve(res.user.uid);
+      });
+    });
+  },
+  createUserWithEmailAction: (context, payload) => {
+    return new Promise((resolve, reject) => {
+      firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password).then(res => {
+        context.commit('authrizedSetter', {state: true});
+        resolve(res.user);
+      });
+    });
+  },
+  signOutAction: (context, payload) => {
+    return new Promise((resolve, reject) => {
+      firebase.auth().signOut().then( () => {
+        resolve();
       });
     });
   },
